@@ -1,0 +1,167 @@
+.navbar-search {
+  position: relative;
+  margin-left: 1vw;
+}
+
+.navbar-search input {
+  padding: 0.45vw 1.1vw 0.45vw 2.2vw;
+  border-radius: 999px;
+  border: 0.08vw solid #3b3b3b;
+  background-color: #1f1f1f;
+  color: white;
+  width: 12vw;
+  font-size: 0.95vw;
+  transition: width 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  outline: none;
+}
+
+.navbar-search input::placeholder {
+  color: #ffffff;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.navbar-search.active input {
+  width: 26vw;
+  border-color: #f0d210;
+  box-shadow: 0 0 0 0.08vw rgba(240,210,16,0.4);
+  background-color: #1a1a1a;
+}
+
+.search-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.6vw);
+  width: 34vw;
+  background: #1b1b1b;
+  border-radius: 0.6vw;
+  padding: 0.6vw 1vw;
+  box-shadow: 0 1vw 2vw rgba(0,0,0,0.5);
+  z-index: 99;
+  border: 0.1vw solid #3a3a3a; /* <-- Add this */
+}
+
+
+.navbar-search.active .search-dropdown {
+  display: block;
+}
+
+.search-dropdown-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.8vw;
+}
+
+/* LEFT SIDE: TRENDING */
+
+.search-left {
+  padding-right: 0.8vw;
+}
+
+.search-trending-title {
+  font-size: 1.4vw;
+  color: #ffffff;
+  font-weight: 800;
+  margin-bottom: 0.6vw;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.search-trending-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55vw;
+}
+
+.search-trending-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.6vw;
+  font-size: 1.2vw;
+  font-weight: 600;
+  color: #f2f2f2;
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.search-trending-list li:hover {
+  color: #f0d210;
+  transform: translateX(0.08vw);
+}
+
+.search-trending-icon {
+  width: 2vw;
+  margin-top: -0.15vw;
+  margin-right: -0.15vw;
+}
+
+/* RIGHT SIDE: RESULTS */
+
+.search-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6vw;
+}
+
+.search-dropdown .search-game {
+  display: flex;
+  align-items: center;
+  padding: 0.5vw;
+  background: #1b1b1b;
+  border-radius: 0.45vw;
+  border: 0.08vw solid #242424;
+  text-decoration: none;
+  transform: translateY(0);
+  transition: transform 0.18s ease-out, filter 0.18s ease-out, background-color 0.18s ease-out;
+}
+
+.search-dropdown .search-game:hover {
+  transform: translateY(-0.15vw);
+  background-color: #262626;
+  filter: brightness(1.06);
+}
+
+.search-game-thumb {
+  width: 4.2vw;
+  height: 2.8vw;
+  border-radius: 0.35vw;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.search-game-text {
+  margin-left: 0.7vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05vw;
+}
+
+.search-game-title {
+  font-size: 1vw;
+  color: white;
+}
+
+.search-game-desc {
+  font-size: 0.7vw;
+  font-weight: 400;
+  color: #cccccc;
+}
+
+/* SEARCH INPUT ICON */
+
+.navbar-search form {
+  position: relative;
+}
+
+.search-input-icon {
+  position: absolute;
+  left: 0.1vw;
+  top: 1vw;
+  transform: translateY(-50%);
+  width: 2.2vw;
+  height: auto;
+  pointer-events: none;
+}
