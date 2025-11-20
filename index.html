@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zephiryx - Juega en clase sin que te pillen</title>
+    <title>Zephiryx - Herramientas para clase sin bloqueos</title>
     <link rel="icon" type="image/png" href="https://files.catbox.moe/2u6mbz.png">
     <link rel="apple-touch-icon" href="https://files.catbox.moe/2u6mbz.png">
     <meta property="og:image" content="https://files.catbox.moe/2u6mbz.png">
@@ -20,193 +20,102 @@
             --gray: #727272;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:var(--dark); color:var(--light); font-family:'Poppins',sans-serif; }
-        
-        /* === NAV EXACTAMENTE IGUAL === */
+        body { background:var(--dark); color:var(--light); font-family:'Poppins',sans-serif; line-height:1.7; }
+       
         .nav {
-            position:fixed;
-            top:0; left:0; right:0;
-            padding:1.5rem;
-            background:transparent;
-            backdrop-filter:blur(10px);
-            z-index:100;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
+            position:fixed; top:0; left:0; right:0; padding:1.5rem;
+            background:transparent; backdrop-filter:blur(10px); z-index:100;
+            display:flex; justify-content:space-between; align-items:center;
         }
         .nav-logo {
-            font-size:1.5rem;
-            font-weight:800;
-            color:var(--primary);
-            display:flex;
-            align-items:center;
-            gap:0.5rem;
-            letter-spacing:-0.05em;
-            text-decoration:none;
+            font-size:1.5rem; font-weight:800; color:var(--primary);
+            display:flex; align-items:center; gap:0.5rem; letter-spacing:-0.05em; text-decoration:none;
         }
-        .nav-logo img {
-            width:38px;
-            height:38px;
-            object-fit:contain;
-            background:transparent;
-            border-radius:0;
-        }
-        .nav-links {
-            display:flex;
-            align-items:center;
-            gap:2rem;
-        }
-        .nav-links a {
-            color:var(--light);
-            text-decoration:none;
-            font-weight:500;
-            position:relative;
-            font-size:0.95rem;
-            transition:color 0.3s;
-        }
+        .nav-logo img { width:38px; height:38px; object-fit:contain; border-radius:0; }
+        .nav-links { display:flex; gap:2rem; }
+        .nav-links a { color:var(--light); text-decoration:none; font-weight:500; position:relative; font-size:0.95rem; }
         .nav-links a:hover { color:var(--primary); }
-        .nav-links a::after {
-            content:'';
-            position:absolute;
-            width:0; height:2px;
-            bottom:-6px; left:0;
-            background:var(--primary);
-            transition:width 0.3s ease;
-        }
+        .nav-links a::after { content:''; position:absolute; width:0; height:2px; bottom:-6px; left:0; background:var(--primary); transition:width .3s; }
         .nav-links a:hover::after { width:100%; }
 
-        /* === CONTAINER EXACTAMENTE IGUAL (padding-top:120px) === */
-        .container { 
-            max-width:900px; 
-            margin:0 auto; 
-            padding:20px; 
-            padding-top:120px; 
-        }
+        .container { max-width:1100px; margin:0 auto; padding:20px; padding-top:120px; }
 
-        /* === TÍTULOS Y TEXTOS IGUALES === */
-        h1 { 
-            color:var(--primary); 
-            text-align:center; 
-            font-size:3rem; 
-            margin-bottom:3rem; 
-        }
+        h1, h2, h3 { color:var(--light); }
+        h1 { font-size:3.6rem; text-align:center; margin-bottom:1.5rem; }
+        h2 { font-size:2.6rem; text-align:center; margin:3rem 0 1.5rem; }
+        p { color:var(--gray); }
 
-        /* Hero adaptado al estilo minimalista de roadmap */
-        .hero-content {
+        .hero { text-align:center; padding:3rem 0; }
+        .hero p { font-size:1.3rem; max-width:800px; margin:0 auto 3rem; }
+        .badge { display:inline-block; background:rgba(0,255,153,0.15); color:var(--primary); padding:0.6rem 1.4rem; border-radius:50px; font-weight:600; font-size:0.95rem; }
+
+        .grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
+            gap:2.5rem;
+            margin:1.5rem 0;
+        }
+        .card {
+            background:var(--dark-3);
+            padding:2.5rem;
+            border-radius:16px;
             text-align:center;
-            max-width:800px;
-            margin:0 auto 4rem;
+            transition:all .4s;
+            border:1px solid transparent;
         }
-        .hero-badge {
-            display:inline-block;
-            background:rgba(0,255,153,0.15);
-            color:var(--primary);
-            padding:0.5rem 1.2rem;
-            border-radius:50px;
-            font-weight:600;
-            font-size:0.9rem;
-            margin-bottom:1.5rem;
-        }
-        .hero-content h1 {
-            font-size:3.8rem;
-            margin:0 0 1.5rem 0;
-            letter-spacing:-0.05em;
-        }
-        .hero-content p {
-            font-size:1.25rem;
-            color:var(--gray);
-            line-height:1.7;
-            margin-bottom:3rem;
-        }
-        .hero-btns {
-            display:flex;
-            justify-content:center;
-            gap:1.5rem;
-            flex-wrap:wrap;
-            margin-bottom:4rem;
-        }
+        .card:hover { transform:translateY(-12px); border-color:rgba(0,255,153,0.3); box-shadow:0 20px 40px rgba(0,255,153,0.15); }
+        .card i { font-size:3.5rem; color:var(--primary); margin-bottom:1.5rem; }
+        .card h3 { font-size:1.6rem; margin-bottom:1rem; }
+
         .btn {
-            padding:1rem 2rem;
+            padding:1rem 2.2rem;
             border-radius:12px;
             font-weight:600;
             text-decoration:none;
-            transition:all 0.3s;
             display:inline-flex;
             align-items:center;
-            gap:0.5rem;
+            justify-content:center;
+            gap:0.7rem;
+            transition:all .3s;
+            margin-top:1rem;
+            font-size:1rem;
+            min-width:200px;
+            line-height:1;
+        }
+        .btn i {
+            font-size:1.4rem !important;
+            margin-bottom: -1px;
         }
         .btn-primary { background:var(--light); color:var(--dark); }
-        .btn-primary:hover { background:var(--gray); transform:translateY(-4px); }
+        .btn-primary:hover { background:#ccc; transform:translateY(-4px); }
         .btn-secondary { background:transparent; border:2px solid var(--gray); color:var(--light); }
         .btn-secondary:hover { border-color:var(--primary); color:var(--primary); background:rgba(0,255,153,0.1); }
+        .soon { opacity:0.6; }
 
-        .countdown-container {
-            margin-top:3rem;
-            padding:2.5rem;
-            background:var(--dark-3);
-            border-radius:20px;
-        }
+        /* QUITADO EL RECUADRO GRIS Y TODO PEGADO */
+        .features h2 { margin-bottom:1.5rem; }
+        .features .grid { margin-top:0; }
 
-        /* Secciones de features con el mismo estilo que roadmap */
-        .section-title {
-            text-align:center;
-            margin-bottom:4rem;
-        }
-        .section-title h2 {
-            font-size:2.8rem;
-            font-weight:800;
-            letter-spacing:-0.03em;
-        }
-        .features-grid {
-            display:grid;
-            grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
-            gap:2rem;
-            margin-bottom:6rem;
-        }
-        .feature-card {
-            background:var(--dark-3);
-            padding:2rem;
-            border-radius:16px;
-            transition:all 0.4s;
-            position:relative;
-            overflow:hidden;
-        }
-        .feature-card:hover {
-            transform:translateY(-12px);
-            box-shadow:0 20px 40px rgba(0,255,153,0.2);
-            border:1px solid rgba(0,255,153,0.3);
-        }
-        .feature-emoji { font-size:3rem; margin-bottom:1rem; }
-        .feature-tag {
-            position:absolute; top:12px; right:12px;
-            background:rgba(0,255,153,0.2); color:var(--primary);
-            padding:0.4rem 0.9rem; border-radius:30px;
-            font-size:0.75rem; font-weight:600;
-        }
+        .testimonial { background:var(--dark-3); padding:2rem; border-radius:16px; font-style:italic; }
+        .testimonial-author { margin-top:1rem; font-weight:600; color:var(--primary); font-style:normal; }
 
-        /* Footer exactamente igual */
-        footer {
-            background:var(--dark);
-            padding:4rem;
-            text-align:center;
-            border-top:1px solid var(--dark-3);
-            margin-top:6rem;
-        }
-        .footer-links {
-            display:flex;
-            justify-content:center;
-            gap:2rem;
-            flex-wrap:wrap;
-            margin-bottom:1.5rem;
-        }
+        .faq { margin:3rem 0; }
+        .faq-item { background:var(--dark-3); padding:1.5rem; border-radius:12px; margin-bottom:1rem; overflow:hidden; }
+        .faq-question { font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
+        .faq-question i { transition:transform .3s; }
+        .faq-question.active i { transform:rotate(180deg); }
+        .faq-answer { max-height:0; overflow:hidden; transition:max-height .4s ease; color:var(--gray); }
+        .faq-answer.open { max-height:200px; padding-top:1rem; }
+
+        footer { background:var(--dark); padding:5rem 0; text-align:center; border-top:1px solid var(--dark-3); }
+        .footer-links { display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap; margin-bottom:2rem; font-size:1.1rem; }
         .footer-links a { color:var(--gray); text-decoration:none; }
         .footer-links a:hover { color:var(--primary); }
 
         @media (max-width:768px) {
             .nav-links { display:none; }
-            h1, .hero-content h1 { font-size:2.4rem !important; }
-            .hero-content p { font-size:1.1rem; }
-            .hero-btns { flex-direction:column; align-items:center; }
+            h1 { font-size:2.8rem; }
+            h2 { font-size:2.2rem; }
         }
     </style>
 </head>
@@ -214,76 +123,108 @@
 
     <nav class="nav">
         <a href="index.html" class="nav-logo">
-            <img src="https://files.catbox.moe/2u6mbz.png" alt="Zephiryx">
-            Zephiryx
+            <img src="https://files.catbox.moe/2u6mbz.png" alt="Zephiryx"> Zephiryx
         </a>
         <div class="nav-links">
-            <a href="gaming.html">Gaming</a>
-            <a href="chat.html">Chat</a>
-            <a href="browser.html">Browser</a>
+            <a href="#herramientas">Herramientas</a>
+            <a href="#como-funciona">Cómo funciona</a>
+            <a href="#faq">FAQ</a>
             <a href="roadmap.html">Hoja de Ruta</a>
         </div>
     </nav>
 
     <div class="container">
-        <div class="hero-content">
-            <div class="hero-badge">100% GRATIS • NUNCA TE PILLAN</div>
-            <h1>Juega en clase sin que te pillen <span style="font-size:1.2em">🕹️😈</span></h1>
-            <p>Zephiryx trae <b>juegos no educativos</b>, chat privado con tus amigos y muy pronto <b>Zephiryx Browser</b> para navegar disfrazado como página de clase.</p>
-            
-            <div class="hero-btns">
-                <a href="#features" class="btn btn-primary"><i class="fas fa-gamepad"></i> Jugar ya</a>
-                <a href="#chat" class="btn btn-secondary"><i class="fas fa-comments"></i> Abrir Zephiryx Chat</a>
-            </div>
+        <section class="hero">
+            <div class="badge">100% GRATIS · SIN ANUNCIOS · FUNCIONA EN CUALQUIER INSTITUTO</div>
+            <h1>Herramientas para clase<br>sin bloqueos</h1>
+            <p>Zephiryx te permite usar todo lo que necesitas en el instituto aunque esté bloqueado: juegos, chat y navegador disfrazado.</p>
+        </section>
 
-            <div class="countdown-container">
-                <h3 style="font-size:1.8rem;margin-bottom:1rem;font-weight:700"><span>🚀</span> Zephiryx Browser - Próximamente</h3>
-                <p style="color:var(--primary);font-size:1.1rem;">YouTube, TikTok, Instagram… disfrazados como Word o Classroom. Nadie sospechará.</p>
+        <h2>Nuestras herramientas</h2>
+        <div class="grid">
+            <div class="card">
+                <i class="fas fa-gamepad"></i>
+                <h3>Zephiryx Gaming</h3>
+                <p>Cientos de juegos que se abren como documentos de Word o Google Docs.</p>
+                <a href="gaming.html" class="btn btn-primary"><i class="fas fa-play"></i> Acceder ahora</a>
+            </div>
+            <div class="card soon">
+                <i class="fas fa-comments"></i>
+                <h3>Zephiryx Chat</h3>
+                <p>Chat privado con compañeros que se ve como bloc de notas.</p>
+                <a href="#" class="btn btn-secondary">Próximamente</a>
+            </div>
+            <div class="card soon">
+                <i class="fas fa-globe"></i>
+                <h3>Zephiryx Browser</h3>
+                <p>Navegador disfrazado de Word o Classroom para entrar donde quieras.</p>
+                <a href="#" class="btn btn-secondary">En desarrollo</a>
             </div>
         </div>
 
-        <!-- SECCIÓN JUEGOS -->
-        <section id="features">
-            <div class="section-title">
-                <h2>Juegos que molan de verdad <span>🔥</span></h2>
-                <p>Cientos de juegos sin bloqueos, disfrazados para que parezcan tareas del cole</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card"><span class="feature-emoji">🕹️</span><span class="feature-tag">+500</span><h3>Juegos épicos</h3><p>Retro, acción, multijugador, puzzles… todo para sobrevivir a la clase más aburrida</p></div>
-                <div class="feature-card"><span class="feature-emoji">🎭</span><span class="feature-tag">Incógnito</span><h3>Disfraz total</h3><p>Se abre como Google Docs, Word o calculadora. El profe pasa de largo</p></div>
-                <div class="feature-card"><span class="feature-emoji">⚡</span><h3>Carga instantánea</h3><p>Sin lag, sin descargas, funciona en cualquier PC cutre del instituto</p></div>
-                <div class="feature-card"><span class="feature-emoji">👥</span><h3>Con toda la clase</h3><p>Juega en tiempo real con tus amigos sin salir de la pestaña</p></div>
-                <div class="feature-card"><span class="feature-emoji">🛡️</span><h3>Sin bloqueos</h3><p>Proxies actualizados cada día. Siempre una puerta abierta</p></div>
-                <div class="feature-card"><span class="feature-emoji">📱</span><h3>En cualquier dispositivo</h3><p>Ordenador, tablet del cole o móvil. Todo funciona perfecto</p></div>
-            </div>
-        </section>
+        <!-- SIN RECUADRO GRIS Y TODO PEGADO -->
+        <h2>Ventajas de usar Zephiryx</h2>
+        <div class="grid">
+            <div class="card"><i class="fas fa-mask"></i><h3>Indetectable</h3><p>Parece una página normal de clase.</p></div>
+            <div class="card"><i class="fas fa-bolt"></i><h3>Acceso inmediato</h3><p>Sin instalaciones ni registros.</p></div>
+            <div class="card"><i class="fas fa-shield-alt"></i><h3>Sin bloqueos</h3><p>Proxies nuevos cada día.</p></div>
+            <div class="card"><i class="fas fa-mobile-alt"></i><h3>En cualquier dispositivo</h3><p>Ordenadores y tablets del insti.</p></div>
+            <div class="card"><i class="fas fa-sync"></i><h3>Siempre actualizado</h3><p>Nuevos disfraces constantemente.</p></div>
+            <div class="card"><i class="fas fa-gift"></i><h3>Gratis para siempre</h3><p>Sin límites ni pagos.</p></div>
+        </div>
 
-        <!-- SECCIÓN CHAT -->
-        <section id="chat" style="margin-top:6rem;">
-            <div class="section-title">
-                <h2>Zephiryx Chat <span>💬</span></h2>
-                <p>Habla con toda la clase sin que el profe vea ni un mensaje</p>
+        <h2 id="como-funciona">Cómo funciona</h2>
+        <div class="grid">
+            <div class="card"><h3 style="font-size:3rem;color:var(--primary);">1</h3><h3>Abre la web</h3><p>Desde cualquier PC del instituto.</p></div>
+            <div class="card"><h3 style="font-size:3rem;color:var(--primary);">2</h3><h3>Elige herramienta</h3><p>Gaming, Chat o Browser.</p></div>
+            <div class="card"><h3 style="font-size:3rem;color:var(--primary);">3</h3><h3>Listo</h3><p>Todo disfrazado y sin que te pillen.</p></div>
+        </div>
+
+        <h2>Lo que dicen los usuarios</h2>
+        <div class="grid">
+            <div class="testimonial"><p>"En clase de mates abro juegos y parece que estoy trabajando."</p><div class="testimonial-author">— Un estudiante</div></div>
+            <div class="testimonial"><p>"El disfraz de Google Docs es perfecto."</p><div class="testimonial-author">— Otro del insti</div></div>
+            <div class="testimonial"><p>"Lo uso todos los días y nunca me han pillado."</p><div class="testimonial-author">— Alguien más</div></div>
+        </div>
+
+        <h2 id="faq">Preguntas frecuentes</h2>
+        <div class="faq">
+            <div class="faq-item">
+                <div class="faq-question">¿Me pueden pillar usándolo? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">No. Los disfraces son perfectos y llevamos años sin problemas.</div>
             </div>
-            <div class="features-grid">
-                <div class="feature-card"><span class="feature-emoji">🔒</span><h3>Salas privadas</h3><p>Por curso, grupo o 1vs1. Nadie fuera de la sala ve nada</p></div>
-                <div class="feature-card"><span class="feature-emoji">🎭</span><h3>Pestaña disfrazada</h3><p>Se ve como apuntes, Kahoot o Google Classroom</p></div>
-                <div class="feature-card"><span class="feature-emoji">🔕</span><h3>Sin sonido</h3><p>Notificaciones y sonidos desactivados por defecto</p></div>
+            <div class="faq-item">
+                <div class="faq-question">¿Funciona en mi instituto? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Sí, en el 99% de los casos. Si no, te ayudamos en Discord.</div>
             </div>
-        </section>
+            <div class="faq-item">
+                <div class="faq-question">¿Tengo que instalar algo? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">No. Solo abre la web y ya está.</div>
+            </div>
+        </div>
     </div>
 
     <footer>
         <div class="container">
             <div class="footer-links">
-                <a href="#">Términos</a>
-                <a href="#">Privacidad</a>
                 <a href="#">Discord</a>
+                <a href="roadmap.html">Hoja de Ruta</a>
                 <a href="#">Sugerencias</a>
             </div>
-            <p style="color:var(--gray);margin-top:1.5rem;">
-                © 2025 Zephiryx - Para los que odian clase y aman pasarlo bien 😈
+            <p style="color:var(--gray); margin-top:2rem; font-size:1.1rem;">
+                © 2025 Zephiryx – Herramientas para clase sin límites
             </p>
         </div>
     </footer>
+
+    <script>
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                q.classList.toggle('active');
+                const answer = q.nextElementSibling;
+                answer.classList.toggle('open');
+            });
+        });
+    </script>
 </body>
 </html>
