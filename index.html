@@ -1,1249 +1,274 @@
 <!DOCTYPE html>
-<!-- saved from url=(0025)https://pizzaedition.win/ -->
-<html lang="en" data-lt-installed="true" style="--tts-highlight-color: #ffff0066; --tts-underline-color: #ff4000fe;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="icon" type="image/x-icon" href="./The Pizza Edition_files/pizzalogo.png">
-    
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Pizza Edition</title>
-    
-    
-    <link href="./The Pizza Edition_files/css2" rel="stylesheet">
-    <link rel="stylesheet" href="./The Pizza Edition_files/style.css">
-    <link rel="stylesheet" href="./The Pizza Edition_files/searchnav.css">
-    <meta name="description" content="The Pizza Edition - Dive into 250+ top experiences across multiple different categories — there&#39;s so much to explore and enjoy.">
-    <!-- Google tag (gtag.js) -->
-    <!--<script src="./The Pizza Edition_files/analytics.js"></script>-->--><!--<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2550143154036518" data-overlays="bottom" crossorigin="anonymous"></script>-->-->
+    <title>Zephiryx Gaming - Juega sin que te pillen</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
 
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
     <style>
-        /* Style for FPS counter */
+        :root {
+            --primary: #00ff99;
+            --primary-dark: #00cc77;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#000; color:white; font-family:'Poppins',sans-serif; overflow-x:hidden; }
+        ::selection { background:var(--primary); color:black; }
 
+        /* Navbar */
+        .navbar {
+            position:fixed; top:0; left:0; right:0; padding:1.2rem 3%;
+            background:rgba(0,0,0,0.92); backdrop-filter:blur(12px);
+            z-index:1000; display:flex; justify-content:space-between; align-items:center;
+        }
+        .navbar-left a {
+            display:flex; align-items:center; gap:12px; color:var(--primary);
+            font-size:1.8rem; font-weight:800; text-decoration:none;
+        }
+        .navbar-left img { width:40px; height:40px; border-radius:50%; }
+        .navbar-right a { color:white; text-decoration:none; margin-left:2.5rem; font-weight:600; }
+        .navbar-right a:hover { color:var(--primary); }
 
-        h2 {
-            font-size: 2.5vw;
-        text-align: center;
-        color: white;
-        margin-top: -3.125vw;
-        margin-bottom: 2.604vw;
+        /* Partículas */
+        #particles-js { position:fixed; width:100%; height:100%; top:0; left:0; z-index:-1; }
 
+        /* Hero */
+        .hero-section {
+            padding-top:12vw; display:flex; justify-content:center; align-items:flex-start;
+            gap:6vw; flex-wrap:wrap; min-height:90vh;
+        }
+        .hero-text { flex:1; max-width:45vw; }
+        .hero-text h1 {
+            font-family:'Bebas Neue',sans-serif; font-size:8.5vw; margin:0; text-align:left;
+        }
+        @keyframes waveColor {
+            0% { background-position:200% 0; }
+            100% { background-position:-200% 0; }
+        }
+        .highlight {
+            background:linear-gradient(90deg,var(--primary),#66ffbb,var(--primary));
+            background-size:200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            animation:waveColor 20s linear infinite;
+        }
+        .hero-text h2 {
+            font-size:2.3vw; margin:1.5vw 0 2vw; opacity:0.9;
         }
 
-        h1 {
-        font-size: 6.833vw;
-        text-align: center;
-        color: white;
-        margin-top: 5.208vw;
-    }
-    @keyframes waveColor {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
+        .start-btn {
+            display:inline-block; padding:1.3vw 3.5vw; background:var(--primary); color:black;
+            font-weight:900; font-size:1.7vw; border-radius:1vw; text-decoration:none;
+            position:relative; overflow:hidden;
+        }
+        .start-btn:hover { background:var(--primary-dark); }
+        .start-btn .icon {
+            position:absolute; width:2.8vw; opacity:0; pointer-events:none;
+            left:50%; top:50%; transform:translate(-50%,-50%) scale(0.5);
+            transition:all .5s ease;
+        }
+        .start-btn:hover .icon { opacity:1; }
+        .start-btn:hover .icon-joystick { transform:translate(-50%,-220%) scale(1.2) rotate(-15deg); }
+        .start-btn:hover .icon-controller { transform:translate(-150%,120%) scale(1.2) rotate(10deg); }
+        .start-btn:hover .icon-laptop { transform:translate(-300%,-150%) scale(1.2) rotate(-10deg); }
+        .start-btn:hover .icon-coin { transform:translate(180%,-180%) scale(1.2) rotate(15deg); }
 
-.highlight {
-  background: linear-gradient(90deg, #f0d210, #fc5849, #f0d210);
-  background-size: 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: waveColor 30s infinite;
-}
+        /* Sliders laterales */
+        .hero-gallery {
+            display:flex; gap:3vw; height:30vw;
+        }
+        .slider-wrapper { transform:rotate(5deg); }
+        .slider-column { width:15vw; height:30vw; overflow:hidden; border-radius:1.8vw; }
+        .slider-track { display:flex; flex-direction:column; animation:scroll-up 32s linear infinite; }
+        .slider-track.reverse { animation:scroll-down 32s linear infinite; }
+        .slider-track a { padding:0.6vw; }
+        .slider-track img {
+            width:100%; height:15vw; object-fit:cover; border-radius:1.8vw;
+            transition:transform .3s; outline:0.2vw solid transparent;
+        }
+        .slider-track a:hover img { transform:scale(1.08); outline:0.2vw solid var(--primary); }
+        @keyframes scroll-up { 0%{transform:translateY(0)} 100%{transform:translateY(-50%)} }
+        @keyframes scroll-down { 0%{transform:translateY(-50%)} 100%{transform:translateY(0)} }
 
+        /* Títulos de sección */
+        .section-title {
+            text-align:center; margin:10vw 0 4vw; font-size:5.5vw; font-family:'Bebas Neue',sans-serif;
+            color:var(--primary);
+        }
 
-  .container {
-  display: flex;
-  justify-content: center;
-    align-items: center;
-    gap: 1.042vw;
-}
+        /* Grid de juegos */
+        .container1 {
+            display:flex; flex-wrap:wrap; justify-content:center; gap:2.5vw;
+            margin:0 auto 8vw; max-width:95%;   /* ← Separación reducida */
+        }
+        .image-container {
+            position:relative; overflow:hidden; border-radius:1.5vw;
+            flex:0 0 calc(20% - 2.5vw); aspect-ratio:16/9; transition:.4s;
+        }
+        .image-container:hover {
+            transform:scale(1.05);
+            box-shadow:0 0 0 0.15vw var(--primary);
+        }
+        .image { width:100%; height:100%; object-fit:cover; border-radius:1.5vw; }
+        .overlay {
+            position:absolute; inset:0; background:rgba(0,0,0,0.6);
+            display:flex; align-items:center; justify-content:center; opacity:0; transition:.4s;
+        }
+        .image-container:hover .overlay { opacity:1; }
+        .text { font-family:'Bebas Neue',sans-serif; font-size:1.8vw; color:var(--primary); text-shadow:0 0 10px black; }
 
-.container1 {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1vw;
-  margin-top: 1vw;
-  max-width: 100%;
-  margin-left: 3vw;
-  margin-right: 3vw;
-  margin-bottom: -6vw;
-}
+        /* Estadísticas más cerca (solo 8vw de margen superior) */
+        .details-frame {
+            background:#111; padding:6vw 0; margin-top:8vw;   /* ← Separación reducida */
+            display:flex; justify-content:space-around; flex-wrap:wrap;
+            border-top:0.4vw solid var(--primary); border-bottom:0.4vw solid var(--primary);
+        }
+        .detail { text-align:center; min-width:200px; margin:2vw 0; }
+        .toph1 { font-size:6vw; font-weight:900; color:var(--primary); }
+        .bottomh1 { font-size:1.6vw; opacity:0.8; text-transform:uppercase; }
 
-.image-container {
-  position: relative;
-  overflow: hidden;
-  border-radius: 1vw;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  flex: 0 0 calc(20% - 1vw); /* 5 per row */
-  box-sizing: border-box;
-  aspect-ratio: 16 / 9;
-}
+        footer {
+            background:#000; padding:6vw 3%; display:flex; justify-content:space-between; flex-wrap:wrap; gap:3vw;
+            border-top:1px solid #222; margin-top:8vw;
+        }
+        footer a { color:#aaa; text-decoration:none; }
+        footer a:hover { color:var(--primary); }
 
-.image-container:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 0 0.1vw #f0d210;
-}
-
-.image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 1vw;
-  transition: filter 0.3s ease;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  border-radius: 1vw;
-}
-
-.image-container:hover .overlay {
-  opacity: 1;
-}
-
-.text {
-  color: white;
-  font-size: 1.2vw;
-  font-family: 'Bebas Neue', sans-serif;
-  text-align: center;
-}
-
-
-
-
-::selection {
-    background: #f0d210; 
-    color: white; 
-}
-.line {
-  background-color: #f0d210;
-  width: 20vw;
-  height: .5vw;
-  border-radius: 50vw;
-  margin-left: 2.5vw;
-  margin-top: -1.3vw;
-}
-.hero-section {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 8vw;
-  gap: 4vw;
-  flex-wrap: wrap;
-}
-
-.hero-text {
-  flex: 1;
-  max-width: 40vw;
-  color: white;
-}
-
-.hero-text h1 {
-  font-size: 6.833vw;
-  text-align: left;
-  margin: 0;
-}
-
-.hero-text h2 {
-  font-size: 2vw;
-  text-align: left;
-  margin-top: 1vw;
-  margin-bottom: 1vw;
-}
-
-.hero-subtext {
-  font-size: 1.2vw;
-  margin-bottom: 2vw;
-  color: #ccc;
-}
-
-.start-btn {
-  display: inline-block;
-  padding: 1vw 2vw;
-  background-color: #f0d210;
-  color: black;
-  font-weight: bold;
-  font-size: 1.3vw;
-  border-radius: 0.5vw;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.start-btn:hover {
-  background-color: #fc5849;
-}
-
-.footer {
-  width: 100%;
-}
-
-.hero-gallery {
-  display: flex;
-  gap: 2vw;
-  height: 26.4vw; /* 22vw * 1.2 = 26.4vw */
-  overflow: visible;
-}
-
-.slider-wrapper {
-  transform: rotate(5deg);
-  transform-origin: center;
-}
-
-.slider-column {
-  width: 13.2vw; /* 11vw * 1.2 = 13.2vw */
-  height: 26.4vw; /* 22vw * 1.2 = 26.4vw */
-  position: relative;
-  overflow: hidden;
-  border-radius: 1vw;
-}
-
-.slider-track {
-  display: flex;
-  flex-direction: column;
-  animation: scroll-up 24s linear infinite;
-}
-
-.slider-track.reverse {
-  animation: scroll-down 24s linear infinite;
-}
-
-.slider-track a {
-  display: block;
-  padding: 0.48vw; /* 0.4vw * 1.2 = 0.48vw */
-  box-sizing: border-box;
-}
-
-.slider-track img {
-  width: 100%;
-  height: 13.2vw; /* 11vw * 1.2 = 13.2vw */
-  object-fit: cover;
-  border-radius: 1vw;
-  transition: transform 0.25s ease, outline 0.25s ease;
-  will-change: transform;
-  outline: 0.18vw solid transparent; /* 0.15vw * 1.2 = 0.18vw */
-}
-
-.slider-track a:hover img {
-  transform: scale(1.05);
-  outline: 0.18vw solid #f0d210;
-}
-
-/* Infinite scroll keyframes */
-@keyframes scroll-up {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-50%); }
-}
-
-@keyframes scroll-down {
-  0% { transform: translateY(-50%); }
-  100% { transform: translateY(0); }
-}
-
+        @media (max-width:768px) {
+            .hero-text h1 { font-size:12vw; }
+            .hero-text h2 { font-size:4.5vw; }
+            .start-btn { font-size:4vw; padding:3vw 6vw; }
+            .hero-gallery { gap:5vw; height:70vw; }
+            .slider-column { width:35vw; }
+            .slider-track img { height:35vw; }
+            .image-container { flex:0 0 calc(50% - 2.5vw); }
+            .text { font-size:5vw; }
+            .section-title { font-size:10vw; margin:15vw 0 8vw; }
+            .container1 { margin-bottom:12vw; }
+            .details-frame { margin-top:12vw; padding:10vw 0; }
+        }
     </style>
+</head>
+<body>
 
-  /* FastFont */
-  @font-face {
-    format("opentype");
-    font-family: FastFont;
-    font-weight: normal;
-    font-style: normal;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/FastFont/Fast_Sans.ttf")
-  }
-
-  /* OpenDyslexic */
-  @font-face {
-    format("opentype");
-    font-family: OpenDyslexic;
-    font-weight: normal;
-    font-style: normal;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/OpenDyslexic/OpenDyslexic-Regular.otf")
-  }
-  @font-face {
-    format("opentype");
-    font-family: OpenDyslexic;
-    font-weight: normal;
-    font-style: italic;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/OpenDyslexic/OpenDyslexic-Italic.otf")
-  }
-  @font-face {
-    format("opentype");
-    font-family: OpenDyslexic;
-    font-weight: bold;
-    font-style: normal;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/OpenDyslexic/OpenDyslexic-Bold.otf")
-  }
-  @font-face {
-    format("opentype");
-    font-family: OpenDyslexic;
-    font-weight: bold;
-    font-style: italic;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/OpenDyslexic/OpenDyslexic-BoldItalic.otf")
-  }
-  
-  /* Tahoma */
-  @font-face {
-    format("truetype");
-    font-family: Tahoma;
-    font-weight: normal;
-    font-style: normal;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/Tahoma/Tahoma-Regular.ttf")
-  }
-  @font-face {
-    format("truetype");
-    font-family: Tahoma;
-    font-weight: bold;
-    font-style: normal;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/Tahoma/Tahoma-Bold.ttf")
-  }
-
-  /* CenturyGothic */
-  @font-face {
-    format("truetype");
-    font-family: CenturyGothic;
-    font-weight: normal;
-    font-style: normal;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/CenturyGothic/CenturyGothic-Regular.ttf")
-  }
-  @font-face {
-    format("truetype");
-    font-family: CenturyGothic;
-    font-weight: bold;
-    font-style: normal;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/CenturyGothic/CenturyGothic-Bold.ttf")
-  }
-  
-  /* Calibri */
-  @font-face {
-    format("truetype");
-    font-family: Calibri;
-    font-weight: normal;
-    font-style: normal;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/Calibri/Calibri-Regular.ttf")
-  }
-  @font-face {
-    format("truetype");
-    font-family: Calibri;
-    font-weight: bold;
-    font-style: normal;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/Calibri/Calibri-Bold.ttf")
-  }
-
-  /* OpenSans */
-  @font-face {
-    format("woff");
-    font-family: "Open Sans";
-    font-weight: 400;
-    font-style: normal;
-    font-stretch: 100%;
-    src: url("chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/fonts/OpenSans/OpenSans-Regular.woff")
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-      U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
-      U+FEFF, U+FFFD;
-  }
-
-  
-        [data-font="Arial"] {
-          font-family: "Arial" !important;
-        }
-      
-
-        [data-font="Calibri"] {
-          font-family: "Calibri" !important;
-        }
-      
-
-        [data-font="Courier"] {
-          font-family: "Courier" !important;
-        }
-      
-
-        [data-font="CenturyGothic"] {
-          font-family: "CenturyGothic" !important;
-        }
-      
-
-        [data-font="Comic Sans MS"] {
-          font-family: "Comic Sans MS" !important;
-        }
-      
-
-        [data-font="Helvetica"] {
-          font-family: "Helvetica" !important;
-        }
-      
-
-        [data-font="Open Sans"] {
-          font-family: "Open Sans" !important;
-        }
-      
-
-        [data-font="Tahoma"] {
-          font-family: "Tahoma" !important;
-        }
-      
-
-        [data-font="OpenDyslexic"] {
-          font-family: "OpenDyslexic" !important;
-        }
-      
-
-        [data-font="Verdana"] {
-          font-family: "Verdana" !important;
-        }
-      
-
-        [data-font="FastFont"] {
-          font-family: "FastFont" !important;
-        }
-      
-</style><style title="oihhpemnlfdlkdhbiajjjkbbojdojchj"></style></head>
-<!-- NAVBAR + SEARCH -->
-<body data-window-focused-at="1763492111998" data-pixie-theme2="false" class="tts-highlight-status">
-  <div class="navbar">
-    <div class="navbar-left">
-      <a href="https://pizzaedition.win/">
-        <img src="./The Pizza Edition_files/pizzalogo.png" alt="Site Logo" width="30" height="30">
-      </a>
-      <a href="https://pizzaedition.win/">The Pizza Edition</a>
-    </div>
-
-    <div class="navbar-right">
-      <a href="https://pizzaedition.win/popular">
-        <img src="./The Pizza Edition_files/whitefire.png" alt="Game Icon" style="width: 1.25vw; height: auto;">
-        Popular
-      </a>
-
-      <a href="https://pizzaedition.win/g">
-        <img src="./The Pizza Edition_files/whitegame.png" alt="Game Icon" style="width: 1.302vw; height: auto;">
-        Games
-      </a>
-      <div class="navbar-search" id="navbarSearch">
-        <form action="https://pizzaedition.win/search" method="GET">
-          <img src="./The Pizza Edition_files/search.png" alt="" class="search-input-icon">
-          <input type="text" name="q" placeholder="Search for games" aria-label="Search for games" autocomplete="off">
-        </form>
-        <div class="search-dropdown">
-          <div class="search-dropdown-grid">
-
-            <div class="search-left">
-              <div class="search-trending-title">Trending Searches</div>
-
-              <ul class="search-trending-list">
-                <li data-query="Polytrack">
-                  <img src="./The Pizza Edition_files/search.png" alt="" class="search-trending-icon">
-                  <span>Polytrack</span>
-                </li>
-                <li data-query="Ragdoll Archers">
-                  <img src="./The Pizza Edition_files/search.png" alt="" class="search-trending-icon">
-                  <span>Ragdoll Archers</span>
-                </li>
-                <li data-query="Escape Road">
-                  <img src="./The Pizza Edition_files/search.png" alt="" class="search-trending-icon">
-                  <span>Escape Road</span>
-                </li>
-                <li data-query="Tiny Towers">
-                  <img src="./The Pizza Edition_files/search.png" alt="" class="search-trending-icon">
-                  <span>Tiny Towers</span>
-                </li>
-                <li data-query="Stunt Bike Extreme">
-                  <img src="./The Pizza Edition_files/search.png" alt="" class="search-trending-icon">
-                  <span>Stunt Bike Extreme</span>
-                </li>
-              </ul>
-            </div>
-            <div class="search-right" id="searchResults">
-      <a href="https://pizzaedition.win/g/geometrydashsubzero" class="search-game">
-        <img src="./The Pizza Edition_files/geometrydashsubzero-min.png" alt="Geometry Dash Subzero" class="search-game-thumb">
-        <div class="search-game-text">
-          <div class="search-game-title">Geometry Dash Subzero</div>
-          <div class="search-game-desc">Click to play Geometry Dash Subzero</div>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="/"><img src="assets/logo.png" alt="Zephiryx"> Zephiryx Gaming</a>
         </div>
-      </a>
-    
-      <a href="https://pizzaedition.win/g/bowmasters" class="search-game">
-        <img src="./The Pizza Edition_files/bowmasters-min.jpg" alt="Bow Masters" class="search-game-thumb">
-        <div class="search-game-text">
-          <div class="search-game-title">Bow Masters</div>
-          <div class="search-game-desc">Click to play Bow Masters</div>
+        <div class="navbar-right">
+            <a href="#popular">Popular</a>
+            <a href="#all">Juegos</a>
+            <a href="roadmap.html">Hoja de Ruta</a>
+            <a href="#chat">Chat</a>
         </div>
-      </a>
-    
-      <a href="https://pizzaedition.win/g/braintest" class="search-game">
-        <img src="./The Pizza Edition_files/braintest-min.png" alt="Brain Test" class="search-game-thumb">
-        <div class="search-game-text">
-          <div class="search-game-title">Brain Test</div>
-          <div class="search-game-desc">Click to play Brain Test</div>
-        </div>
-      </a>
-    
-      <a href="https://pizzaedition.win/g/golforbit" class="search-game">
-        <img src="./The Pizza Edition_files/golforbit-min.jpg" alt="Golf Orbit" class="search-game-thumb">
-        <div class="search-game-text">
-          <div class="search-game-title">Golf Orbit</div>
-          <div class="search-game-desc">Click to play Golf Orbit</div>
-        </div>
-      </a>
     </div>
 
-          </div>
-        </div>
-      </div>
-      <a href="https://pizzaedition.win/settings" class="navbar-img-link">
-        <img src="./The Pizza Edition_files/icons8-settings-288.png" alt="Settings Icon" style="width: 1.502vw; height: auto;">
-      </a>
-    </div>
-  </div>
-
-<!--<script src="./The Pizza Edition_files/searchicons.js"></script>-->-->
-<!--<script src="./The Pizza Edition_files/searchlogic.js"></script>-->-->
-<!-- End nav and search -->
-
-
-
-
-
-
-  <!--particlejs start -->
-
-
-  <div id="particles-js"><canvas class="particles-js-canvas-el" style="width: 100%; height: 100%;" width="2061" height="930"></canvas></div>
-
-
-  <!--<script src="./The Pizza Edition_files/particle-load.js"></script>-->-->
-
-
-  <!--<script src="./The Pizza Edition_files/particlejsscript.js"></script>-->-->
-
-
-
-  
-
-
-  <style>
-
-</style>
-
-
-
-<div class="hero-section">
-  <div class="hero-text">
-    <h1>The <span class="highlight">Pizza</span> Edition</h1>
-<div class="heading-with-image">
-  <h2>Dive into 250+ top experiences across multiple different categories — there's so much to explore and enjoy.</h2>
-</div>
-<style>
-  .heading-with-image {
-  display: flex;
-  align-items: center;
-  gap: 0.5vw; /* space between text and image */
-  margin-top: -1.5vw;
-}
-
-.heading-icon {
-  width: 4vw; /* change as needed */
-  height: auto;
-  object-fit: contain;
-  margin-left: -0.35vw;
-  margin-top: -0.122vw;
-}
-
-</style>
-    <p class="hero-subtext"></p>
-<a href="https://pizzaedition.win/popular/" class="start-btn">
-  Start Playing!
-  <img src="./The Pizza Edition_files/joystick.png" class="icon icon-joystick" alt="joystick">
-  <img src="./The Pizza Edition_files/controller.png" class="icon icon-controller" alt="controller">
-  <img src="./The Pizza Edition_files/laptop.png" class="icon icon-laptop" alt="laptop">
-  <img src="./The Pizza Edition_files/coin.png" class="icon icon-coin" alt="coin">
-</a>
-  </div>
-
-<style>
-.start-btn {
-  display: inline-block;
-  padding: 1vw 2vw;
-  background-color: #f0d210;
-  color: black;
-  font-weight: bold;
-  font-size: 1.3vw;
-  border-radius: 0.5vw;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-  position: relative;
-  overflow: visible;
-  margin-top: -1vw;
-}
-
-/* Base icon style */
-.start-btn .icon {
-  position: absolute;
-  width: 2vw;
-  height: 2vw;
-  opacity: 0;
-  pointer-events: none;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  z-index: 1;
-}
-
-/* Hover effect: make visible and animate outward */
-.start-btn:hover .icon {
-  opacity: 1;
-}
-
-.start-btn:hover .icon-joystick {
-  transform: translate(-50%, -200%) scale(1.1) rotate(-12deg);  /* Top middle */
-}
-
-.start-btn:hover .icon-controller {
-  transform: translate(-100%, 90%) scale(1.1) rotate(8deg);     /* Bottom middle */
-}
-
-.start-btn:hover .icon-laptop {
-  transform: translate(-280%, -130%) scale(1.1) rotate(-6deg);  /* Top left */
-}
-
-.start-btn:hover .icon-coin {
-  transform: translate(160%, -170%) scale(1.1) rotate(10deg);   /* Top right */
-}
-
-
-.start-btn:hover {
-  background-color: rgb(255, 68, 51);
-}
-
-</style>
-
-
-<div class="hero-gallery">
-  <!-- Left column -->
-  <div class="slider-wrapper">
-    <div class="slider-column">
-      <div class="slider-track">
-        <!-- Original + Duplicate for seamless scroll -->
-        <a href="https://pizzaedition.win/g/ovodimensions/"><img src="./The Pizza Edition_files/ovodimensions-min.jpg" alt="OvO Dimensions"></a>
-        <a href="https://pizzaedition.win/g/polytrack/"><img src="./The Pizza Edition_files/polytrack-min.jpg" alt="Polytrack"></a>
-        <a href="https://pizzaedition.win/g/clusterrush/"><img src="./The Pizza Edition_files/cluster-min.png" alt="Cluster Rush"></a>
-        <a href="https://pizzaedition.win/g/gladihoppers/"><img src="./The Pizza Edition_files/gladihoppers-min.jpg" alt="GladiHoppers"></a>
-        <a href="https://pizzaedition.win/g/bitlife/"><img src="./The Pizza Edition_files/bitlife-min.jpg" alt="BitLife"></a>
-        <a href="https://pizzaedition.win/g/1v1lol/"><img src="./The Pizza Edition_files/1v1lol-min.png" alt="1v1.LOL"></a>
-
-        <!-- Duplicated set -->
-        <a href="https://pizzaedition.win/g/ovodimensions/"><img src="./The Pizza Edition_files/ovodimensions-min.jpg" alt="OvO Dimensions"></a>
-        <a href="https://pizzaedition.win/g/polytrack/"><img src="./The Pizza Edition_files/polytrack-min.jpg" alt="Polytrack"></a>
-        <a href="https://pizzaedition.win/g/clusterrush/"><img src="./The Pizza Edition_files/cluster-min.png" alt="Cluster Rush"></a>
-        <a href="https://pizzaedition.win/g/gladihoppers/"><img src="./The Pizza Edition_files/gladihoppers-min.jpg" alt="GladiHoppers"></a>
-        <a href="https://pizzaedition.win/g/bitlife/"><img src="./The Pizza Edition_files/bitlife-min.jpg" alt="BitLife"></a>
-        <a href="https://pizzaedition.win/g/1v1lol/"><img src="./The Pizza Edition_files/1v1lol-min.png" alt="1v1.LOL"></a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Right column -->
-  <div class="slider-wrapper">
-    <div class="slider-column">
-      <div class="slider-track reverse">
-        <!-- Original + Duplicate for seamless scroll -->
-        <a href="https://pizzaedition.win/g/snowrider3d/"><img src="./The Pizza Edition_files/snowrider3d-min.png" alt="Snow Rider 3D"></a>
-        <a href="https://pizzaedition.win/g/escaperoad/"><img src="./The Pizza Edition_files/escaperoad-min.png" alt="Escape Road"></a>
-        <a href="https://pizzaedition.win/g/idleants/"><img src="./The Pizza Edition_files/idleants-min.jpg" alt="Idle Ants"></a>
-        <a href="https://pizzaedition.win/g/blockblast/"><img src="./The Pizza Edition_files/blockblast-min.jpg" alt="Block Blast"></a>
-        <a href="https://pizzaedition.win/g/cookieclicker/"><img src="./The Pizza Edition_files/cookieclicker-min.png" alt="Cookie Clicker"></a>
-        <a href="https://pizzaedition.win/g/drivemad/"><img src="./The Pizza Edition_files/drivemad-min.png" alt="Drive Mad"></a>
-
-        <!-- Duplicated set -->
-        <a href="https://pizzaedition.win/g/snowrider3d/"><img src="./The Pizza Edition_files/snowrider3d-min.png" alt="Snow Rider 3D"></a>
-        <a href="https://pizzaedition.win/g/escaperoad/"><img src="./The Pizza Edition_files/escaperoad-min.png" alt="Escape Road"></a>
-        <a href="https://pizzaedition.win/g/idleants/"><img src="./The Pizza Edition_files/idleants-min.jpg" alt="Idle Ants"></a>
-        <a href="https://pizzaedition.win/g/blockblast/"><img src="./The Pizza Edition_files/blockblast-min.jpg" alt="Block Blast"></a>
-        <a href="https://pizzaedition.win/g/cookieclicker/"><img src="./The Pizza Edition_files/cookieclicker-min.png" alt="Cookie Clicker"></a>
-        <a href="https://pizzaedition.win/g/drivemad/"><img src="./The Pizza Edition_files/drivemad-min.png" alt="Drive Mad"></a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-<style>
-.mover {
-  margin-top: -2vw;
-  position: relative;
-}
-
-.fseat {
-  position: absolute;
-  top: 31.5vw;
-  left: 3.6vw;
-  font-size: 2vw;
-  color: white;
-}
-.fseat1 {
-  position: absolute;
-  top: 44.5vw;
-  left: 3.6vw;
-  font-size: 2vw;
-  color: white;
-}
-.fseat2 {
-  position: absolute;
-  top: 57.3vw;
-  left: 3.6vw;
-  font-size: 2vw;
-  color: white;
-}
-
-.fseat3 {
-  position: absolute;
-  top: 70.3vw;
-  left: 3.6vw;
-  font-size: 2vw;
-  color: white;
-}
-
-
-.rec-icon {
-  position: absolute;
-  top: 36.75vw; /* match text */
-  left: 12.6vw;    /* image to the left of the text */
-  width: 2.2vw;
-  height: auto;
-}
-.rec-icon1 {
-  position: absolute;
-  top: 49.75vw; /* match text */
-  left: 6.6vw;    /* image to the left of the text */
-  width: 2.2vw;
-  height: auto;
-}
-.rec-icon2 {
-  position: absolute;
-  top: 62.5vw; /* match text */
-  left: 9.45vw;    /* image to the left of the text */
-  width: 2.25vw;
-  height: auto;
-}
-</style>
-
-<div class="relative-wrapper">
-  <img src="./The Pizza Edition_files/topexpfire.png" alt="Recommended Icon" class="rec-icon">
-  <h1 class="fseat">RECOMMENDED</h1>
-</div>
-
-
-
-
-<div class="container1">
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/polytrack/">
-      <img src="./The Pizza Edition_files/polytrack.webp" alt="Polytrack" class="image">
-      <div class="overlay"><div class="text">Polytrack</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/golforbit/">
-      <img src="./The Pizza Edition_files/golforbit.webp" alt="Golf Orbit" class="image">
-      <div class="overlay"><div class="text">Golf Orbit</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/clusterrush/">
-      <img src="./The Pizza Edition_files/clusterrush.webp" alt="Cluster Rush" class="image">
-      <div class="overlay"><div class="text">Cluster Rush</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/escaperoad/">
-      <img src="./The Pizza Edition_files/escaperoad.webp" alt="Escape Road" class="image">
-      <div class="overlay"><div class="text">Escape Road</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/retrobowlcollege/">
-      <img src="./The Pizza Edition_files/retrobowlcollege.webp" alt="Retro Bowl College" class="image">
-      <div class="overlay"><div class="text">Retro Bowl College</div></div>
-    </a>
-  </div>
-</div>
-
-
-<div class="relative-wrapper">
-  <img src="./The Pizza Edition_files/topexptrophy.png" alt="Recommended Icon" class="rec-icon1">
-  <h1 class="fseat1">NEW</h1>
-</div>
-
-
-<div class="container1">
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/stuntbikeextreme/">
-      <img src="./The Pizza Edition_files/stuntbikextreme.webp" alt="Stunt Bike Extreme" class="image">
-      <div class="overlay"><div class="text">Stunt Bike Extreme</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/harvestsimulator/">
-      <img src="./The Pizza Edition_files/harvestsimulator.webp" alt="Harvest Simulator" class="image">
-      <div class="overlay"><div class="text">Harvest Simulator</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/sausageflip/">
-      <img src="./The Pizza Edition_files/sausageflip.webp" alt="Sausage Flip" class="image">
-      <div class="overlay"><div class="text">Sausage Flip</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/ragdollarchers/">
-      <img src="./The Pizza Edition_files/ragdollarchers.webp" alt="Ragdoll Archers" class="image">
-      <div class="overlay"><div class="text">Ragdoll Archers</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/skyriders/">
-      <img src="./The Pizza Edition_files/skyriders.webp" alt="Sky Riders" class="image">
-      <div class="overlay"><div class="text">Sky Riders</div></div>
-    </a>
-  </div>
-</div>
-
-
-<div class="relative-wrapper">
-  <img src="./The Pizza Edition_files/topexp2.png" alt="Recommended Icon" class="rec-icon2">
-  <h1 class="fseat2">2 PLAYER</h1>
-</div>
-
-
-<div class="container1">
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/leveldevil/">
-      <img src="./The Pizza Edition_files/leveldevil.webp" alt="Level Devil" class="image">
-      <div class="overlay"><div class="text">Level Devil</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/tag/">
-      <img src="./The Pizza Edition_files/tag.webp" alt="TAG" class="image">
-      <div class="overlay"><div class="text">TAG</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/BlumgiSlime/">
-      <img src="./The Pizza Edition_files/blumgislime.webp" alt="Blumgi Slime" class="image">
-      <div class="overlay"><div class="text">Blumgi Slime</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/rooftopsnipers/">
-      <img src="./The Pizza Edition_files/rooftopsnipers.webp" alt="Rooftop Snipers" class="image">
-      <div class="overlay"><div class="text">Rooftop Snipers</div></div>
-    </a>
-  </div>
-  <div class="image-container">
-    <a href="https://pizzaedition.win/g/crazycars/">
-      <img src="./The Pizza Edition_files/crazycars.webp" alt="Crazy Cars" class="image">
-      <div class="overlay"><div class="text">Crazy Cars</div></div>
-    </a>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-<div class="features">
-    <h1 class="featurestitle">Features</h1>
-    <div class="hidden cards">
-      <div class="card">
-        <div class="card-img">
-          <img src="./The Pizza Edition_files/shield.png" alt="Secure Experiences" class="feature-image">
-        </div>
-        <p class="featurename">Secure Experience</p>
-        <div class="line"></div>
-        <p class="description">Do not worry about any data being lost! It is all secure and will not be transferred. </p>
-      </div>
-      <div class="card">
-        <div class="card-img">
-          <img src="./The Pizza Edition_files/crown.png" alt="Origional Pages" class="feature-image">
-        </div>
-        <p class="featurename">Original Pages</p>
-        <div class="line"></div>
-        <p class="description">Discover rare experiences unique web pages that you will not find anywhere else. Our website offers a huge selection of content that is truly one of a kind.</p>
-      </div>
-      <div class="card">
-        <div class="card-img">
-          <img src="./The Pizza Edition_files/gamecontrol.png" alt="Fun Experiences" class="feature-image">
-        </div>
-        <p class="featurename">Fun Experiences</p><p>
-        </p><div class="line"></div>
-        <p class="description">The Pizza Edition offers many of fun experiences for everyone! Dive into a large variety of genres and find something that suits your taste. </p>
-      </div>
-    </div>
-</div>
-<style>.ptext {
-    width: 20vw;
-    font-size: 3.5vw;
-    font-weight: 700; /* Make the entire text bold */
-    margin-left: -20vw;
-    margin-bottom: 2vw;
-    text-align: left;
-  }
-  
-.pparagraph {
-  width: 30vw;
-  opacity: 80%;
-  font-size: 1.2vw;
-  color: white;
-  position: relative;
-  left: -24vw; 
-  top: 14vw;  
-}
-
-
-
-  .image1 {
-    width: 41vw;
-    border-radius: 1vw;
-    outline: .2vw solid #ffffff26;
-    margin-left: 35vw;
-    margin-top: -22vw;
-    box-shadow: 0 4px 6px -1px rgba(168, 165, 0, 0.1), 0 2px 4px -1px rgba(255, 230, 0, 0.06);
-  }
-
-  
-</style>
-
-<h1 class="ptext">Why should <span style="font-weight: 700; color: #f0d210; text-decoration: underline;">you</span> choose TPE? </h1>
-
-<p class="pparagraph">The Pizza Has TONS of experiences to explore! Dive into many different types of experiences! The Pizza Edition offers special features, that will not be found anywhere else. The Pizza Edition also has very good performance, so you can easily run this website on not the best computer.</p>
-<img class="image1" src="./The Pizza Edition_files/PIZZAEXPLOREREAL-min.png" alt="Big Pizza Edition Icon">
-  
-
-
-<div class="details-frame">
-    <div class="detail">
-      <div class="toph1 highlight" data-target="5000000">0</div>
-      <div class="bottomh1">Total users</div>
-    </div>
-    <div class="detail">
-      <div class="toph1 highlight" data-target="1000000">0</div>
-      <div class="bottomh1">Monthly users</div>
-    </div>
-    <div class="detail">
-      <div class="toph1 highlight" data-target="100000000">0</div>
-      <div class="bottomh1">Views</div>
-    </div>
-    <div class="detail">
-      <div class="toph1 highlight" data-target="35000000">0</div>
-      <div class="bottomh1">Sessions</div>
-    </div>
-  </div>
-  
-
-
-<style>.details-frame {
-    background-color: #1f2023;
-    margin-top: 5vw;
-    width: 100%;
-    height: 15vw;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-top: 0.26vw solid #f0d210; /* Add top border */
-    border-bottom: 0.26vw solid #f0d210; /* Add bottom border */
-  }
-  
-
-  
-  .detail {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .toph1 {
-    font-size: 5vw;
-    font-weight: 600;
-    color: white;
-  }
-  
-  .bottomh1 {
-    font-size: 1.5vw;
-    font-weight: 400;
-    text-transform: uppercase;
-    opacity: 70%;
-    color: white;
-  }
-  
-  .highlight {
-    background: linear-gradient(90deg, #f0d210, #fc5849, #f0d210);
-    background-size: 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: waveColor 5s infinite;
-  }
-  
-  @keyframes waveColor {
-    0% { background-position: 0%; }
-    100% { background-position: 200%; }
-  }
-  
-  </style>
-<!--<script>document.addEventListener('DOMContentLoaded', function () {
-    const counters = document.querySelectorAll('.toph1');
-    const speed = 200; // Adjust speed here
-    const updateInterval = 20; // Adjust for smoother animation
-
-    const animateCounters = () => {
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                const increment = target / speed;
-
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + increment);
-                    setTimeout(updateCount, updateInterval);
-                } else {
-                    counter.innerText = target.toLocaleString();
-                }
-            };
-
-            updateCount();
-        });
-    };
-
-    const isInViewport = (element) => {
-        const rect = element.getBoundingClientRect();
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    };
-
-    const checkScroll = () => {
-        counters.forEach(counter => {
-            if (isInViewport(counter)) {
-                animateCounters();
-                window.removeEventListener('scroll', checkScroll);
-            }
-        });
-    };
-
-    window.addEventListener('scroll', checkScroll);
-});
-
-  
-  </script>-->-->
-
-
-
-
-
-    <footer class="footer">
-        <div class="left">
-            <a href="https://pizzaedition.win/index.html" class="logo-title">
-                <div class="logo">
-                    <img src="./The Pizza Edition_files/pizzalogo.png" alt="Website Logo">
-                </div>
-                <span class="title">The Pizza Edition</span>
+    <div id="particles-js"></div>
+
+    <div class="hero-section">
+        <div class="hero-text">
+            <h1>Zephir<span class="highlight">yx</span></h1>
+            <h2>+500 juegos sin bloqueos · Juega disfrazado en clase 😈</h2>
+            <a href="#popular" class="start-btn">
+                JUGAR AHORA
+                <img src="https://pizzaedition.win/joystick.png" class="icon icon-joystick">
+                <img src="https://pizzaedition.win/controller.png" class="icon icon-controller">
+                <img src="https://pizzaedition.win/laptop.png" class="icon icon-laptop">
+                <img src="https://pizzaedition.win/coin.png" class="icon icon-coin">
             </a>
         </div>
-        <div class="middle">
-            <a href="https://pizzaedition.win/index.html">Home</a>
-            <a href="https://pizzaedition.win/popular">Popular</a>
-            <a href="https://pizzaedition.win/g">All</a>
-            <a href="https://pizzaedition.win/apps">Apps</a>
+
+        <div class="hero-gallery">
+            <div class="slider-wrapper">
+                <div class="slider-column">
+                    <div class="slider-track">
+                        <a href="/g/1v1lol"><img src="https://pizzaedition.win/games/1v1lol-min.png"></a>
+                        <a href="/g/polytrack"><img src="https://pizzaedition.win/games/polytrack-min.jpg"></a>
+                        <a href="/g/retrobowl"><img src="https://pizzaedition.win/games/retrobowl-min.png"></a>
+                        <a href="/g/cluster"><img src="https://pizzaedition.win/games/cluster-min.png"></a>
+                        <a href="/g/bitlife"><img src="https://pizzaedition.win/games/bitlife-min.jpg"></a>
+                        <a href="/g/geometrydash"><img src="https://pizzaedition.win/games/geometrydashsubzero-min.png"></a>
+                        <a href="/g/1v1lol"><img src="https://pizzaedition.win/games/1v1lol-min.png"></a>
+                        <a href="/g/polytrack"><img src="https://pizzaedition.win/games/polytrack-min.jpg"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-wrapper">
+                <div class="slider-column">
+                    <div class="slider-track reverse">
+                        <a href="/g/drivemad"><img src="https://pizzaedition.win/games/drivemad-min.png"></a>
+                        <a href="/g/snowrider"><img src="https://pizzaedition.win/games/snowrider3d-min.png"></a>
+                        <a href="/g/cookieclicker"><img src="https://pizzaedition.win/games/cookieclicker-min.png"></a>
+                        <a href="/g/escaperoad"><img src="https://pizzaedition.win/games/escaperoad-min.png"></a>
+                        <a href="/g/leveldevil"><img src="https://pizzaedition.win/games/leveldevil.webp"></a>
+                        <a href="/g/rooftopsnipers"><img src="https://pizzaedition.win/games/rooftopsnipers.webp"></a>
+                        <a href="/g/drivemad"><img src="https://pizzaedition.win/games/drivemad-min.png"></a>
+                        <a href="/g/snowrider"><img src="https://pizzaedition.win/games/snowrider3d-min.png"></a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="right">
-            <a href="https://pizzaedition.win/tos">TERMS OF SERVICE</a>
-            <a href="https://pizzaedition.win/privacy">Privacy Policy</a>
-            <a href="https://pizzaedition.win/dmca">DMCA</a>
-            <a href="https://pizzaedition.win/extra/aboutus">About Us</a>
-        </div>
+    </div>
+
+    <div class="section-title">RECOMENDADOS 🔥</div>
+    <div class="container1">
+        <div class="image-container"><a href="/g/polytrack"><img src="https://pizzaedition.win/games/polytrack.webp" class="image"><div class="overlay"><div class="text">Polytrack</div></div></a></div>
+        <div class="image-container"><a href="/g/1v1lol"><img src="https://pizzaedition.win/games/1v1lol.webp" class="image"><div class="overlay"><div class="text">1v1.LOL</div></div></a></div>
+        <div class="image-container"><a href="/g/retrobowl"><img src="https://pizzaedition.win/games/retrobowl.webp" class="image"><div class="overlay"><div class="text">Retro Bowl</div></div></a></div>
+        <div class="image-container"><a href="/g/cluster"><img src="https://pizzaedition.win/games/clusterrush.webp" class="image"><div class="overlay"><div class="text">Cluster Rush</div></div></a></div>
+        <div class="image-container"><a href="/g/bitlife"><img src="https://pizzaedition.win/games/bitlife.webp" class="image"><div class="overlay"><div class="text">BitLife</div></div></a></div>
+    </div>
+
+    <div class="section-title">NUEVOS 🚀</div>
+    <div class="container1">
+        <div class="image-container"><a href="/g/stuntbikeextreme"><img src="https://pizzaedition.win/games/stuntbikextreme.webp" class="image"><div class="overlay"><div class="text">Stunt Bike Extreme</div></div></a></div>
+        <div class="image-container"><a href="/g/ragdollarchers"><img src="https://pizzaedition.win/games/ragdollarchers.webp" class="image"><div class="overlay"><div class="text">Ragdoll Archers</div></div></a></div>
+        <div class="image-container"><a href="/g/leveldevil"><img src="https://pizzaedition.win/games/leveldevil.webp" class="image"><div class="overlay"><div class="text">Level Devil</div></div></a></div>
+        <div class="image-container"><a href="/g/skyriders"><img src="https://pizzaedition.win/games/skyriders.webp" class="image"><div class="overlay"><div class="text">Sky Riders</div></div></a></div>
+        <div class="image-container"><a href="/g/crazycars"><img src="https://pizzaedition.win/games/crazycars.webp" class="image"><div class="overlay"><div class="text">Crazy Cars</div></div></a></div>
+    </div>
+
+    <!-- Estadísticas realistas y más cerca -->
+    <div class="details-frame">
+        <div class="detail"><div class="toph1" data-target="1847">0</div><div class="bottomh1">Usuarios esta semana</div></div>
+        <div class="detail"><div class="toph1" data-target="8923">0</div><div class="bottomh1">Partidas hoy</div></div>
+        <div class="detail"><div class="toph1" data-target="512">0</div><div class="bottomh1">Juegos jugados</div></div>
+        <div class="detail"><div class="toph1" data-target="67">0</div><div class="bottomh1">Colegios infiltrados</div></div>
+    </div>
+
+    <footer>
+        <div><a href="/"><img src="assets/logo.png" width="40" style="border-radius:50%;"> Zephiryx Gaming</a></div>
+        <div><a href="/">Inicio</a> <a href="#popular">Popular</a> <a href="roadmap.html">Hoja de Ruta</a> <a href="#chat">Chat</a></div>
+        <div><a href="#">Términos</a> <a href="#">Privacidad</a> <a href="#">Discord</a></div>
     </footer>
 
-
-  <!--strtscrollup -->
-    <style>
-    #scrollToTopContainer {
-        display: none;
-        position: fixed;
-        bottom: 1.042vw;
-        right: 1.042vw;
-        z-index: 99;
-    }
-
-    #scrollToTop {
-        background-color: #303030;
-        padding: 0.521vw;
-        border-radius: 1.042vw;
-        cursor: pointer;
-        transition: background-color 0.3s ease, border-color 0.3s ease;
-        border: 0.104vw solid #303030; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    #scrollToTop:hover {
-        background-color: #222222;
-        border-color: #f0d210; 
-    }
-
-    #scrollToTop img {
-        width: 2.292vw; 
-        height: auto;
-        transition: transform 0.3s ease;
-    }
-
-    #scrollToTop:hover img {
-        transform: translateY(-0.26vw); 
-    }
-</style>
-
-    
-
-
-    <div id="scrollToTopContainer">
-        <div id="scrollToTop">
-            <img src="./The Pizza Edition_files/2xuparrw.png" alt="Scroll to Top">
-        </div>
-    </div>
-    
-    <!--<script>
-        window.onscroll = function() {scrollFunction()};
-    
-        function scrollFunction() {
-            var scrollToTopContainer = document.getElementById("scrollToTopContainer");
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                scrollToTopContainer.style.display = "block";
-            } else {
-                scrollToTopContainer.style.display = "none";
-            }
-        }
-    
-        document.getElementById("scrollToTop").addEventListener("click", function() {
-            scrollToTop();
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            particles: { number: { value: 130 }, color: { value: "#00ff99" }, opacity: { value: 0.6, random: true }, size: { value: 3, random: true }, line_linked: { enable: true, distance: 150, color: "#00ff99", opacity: 0.4, width: 1 }, move: { enable: true, speed: 3 } },
+            interactivity: { events: { onhover: { enable: true, mode: "repulse" } } }
         });
-    
-        function scrollToTop() {
-            var scrollStep = -window.scrollY / (350 / 15);
-            var scrollInterval = setInterval(function() {
-                if (window.scrollY != 0) {
-                    window.scrollBy(0, scrollStep);
-                } else {
-                    clearInterval(scrollInterval);
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target.querySelector('.toph1');
+                    const target = +counter.dataset.target;
+                    let count = 0;
+                    const inc = target / 200;
+                    const update = () => {
+                        if (count < target) {
+                            count += inc;
+                            counter.innerText = Math.ceil(count).toLocaleString();
+                            setTimeout(update, 10);
+                        } else counter.innerText = target.toLocaleString();
+                    };
+                    update();
+                    observer.unobserve(entry.target);
                 }
-            }, 15);
-        }
-    </script>-->-->
-    
-
-
-
-
-
-
-    
-    
-      
-
-
-
-
-
-        <style>.features {
-            width: 100%;
-            height: 27vw;
-            margin-bottom: 4vw;
-          }
-          .featurestitle {
-            font-size: 3vw;
-            margin-bottom: 1vw;
-          }
-          .card {
-            background-color: #1f2023;
-            width: 25vw;
-            height: 19vw;
-            border-radius: .5vw;
-            margin-bottom: 2vw;
-            margin-left: 6vw;
-            transition: transform .3s ease-in-out;
-            outline: .15vw solid #f0d210;
-          }
-          .card:hover {
-            transform: scale(1.05) translate(0, -0.208vw);
-          }
-          .card-img {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 10vw; /* Adjust the height as needed */
-          }
-          .feature-image {
-            width: 7.813vw;
-            max-height: 100%;
-            object-fit: contain;
-          }
-          .cards {
-            display: flex;
-          }
-          .description {
-            text-align: center;
-            width: 20vw;
-            margin-top: .5vw;
-            margin-left: 2.3vw;
-            font-size: 1vw;
-            color: white;
-          }
-          .featurename {
-            margin-top: .5vw;
-            font-size: 1.6vw;
-            font-weight: 600;
-            text-align: center;
-            color: white;
-          }</style>
-
-
-
-            <meta name="Adventure The Pizza Edition&#39;s huge collection of over 200 games, covering a wide range of genres and experiences that will suit all kinds of players. Whether you&#39;re into racing, retro, puzzles, strategy, or just casual games, we&#39;ve got something for everyone. Take a deep dive into our library and discover your next favorite game today!">
-
-
-    
-    
-    
-
-  
-    <div id="widget-p0A65q95">
-      <div class="tts-previous tts-btn widget-icon"></div>
-      <div class="tts-play tts-btn widget-icon"></div>
-      <div class="tts-pause tts-btn widget-icon"></div>
-      <div class="tts-stop tts-btn widget-icon"></div>
-      <div class="tts-next tts-btn widget-icon"></div>
-    </div>
-  <div class="pixie-reader-highlighter-toolbar" style="display: none;"><div class="pixie-reader-highlight-button" style="display: none;"><img src="chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/ui/extra_accessibility_tools/highlighter_icon.svg" alt="Highlight"></div><div class="pixie-reader-highlight-delete-button" style="display: none;"><img src="chrome-extension://oihhpemnlfdlkdhbiajjjkbbojdojchj/assets/ui/extra_accessibility_tools/trash_icon.svg" width="20" height="20" alt="Delete"></div><div class="pixie-reader-color-options-container" style="display: none;"><div class="pixie-reader-color-option" data-color-value="#ff0000" data-color-name="highlight-ff0000" style="background-color: rgb(255, 0, 0);"></div><div class="pixie-reader-color-option" data-color-value="#ff8000" data-color-name="highlight-ff8000" style="background-color: rgb(255, 128, 0);"></div><div class="pixie-reader-color-option" data-color-value="#ffff00" data-color-name="highlight-ffff00" style="background-color: rgb(255, 255, 0);"></div><div class="pixie-reader-color-option" data-color-value="#00ff00" data-color-name="highlight-00ff00" style="background-color: rgb(0, 255, 0);"></div><div class="pixie-reader-color-option" data-color-value="#00ffff" data-color-name="highlight-00ffff" style="background-color: rgb(0, 255, 255);"></div><div class="pixie-reader-color-option" data-color-value="#0080ff" data-color-name="highlight-0080ff" style="background-color: rgb(0, 128, 255);"></div><div class="pixie-reader-color-option" data-color-value="#8000ff" data-color-name="highlight-8000ff" style="background-color: rgb(128, 0, 255);"></div><div class="pixie-reader-color-option" data-color-value="#ff00ff" data-color-name="highlight-ff00ff" style="background-color: rgb(255, 0, 255);"></div><div class="pixie-reader-color-option" data-color-value="#000000" data-color-name="highlight-000000" style="background-color: rgb(0, 0, 0);"></div><div class="pixie-reader-color-option" data-color-value="#ffffff" data-color-name="highlight-ffffff" style="background-color: rgb(255, 255, 255);"></div></div></div><div id="clearly-root"><iframe id="clearly-container" referrerpolicy="origin-when-cross-origin" allowfullscreen="" src="./The Pizza Edition_files/saved_resource(1).html"></iframe></div></body></html>
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.detail').forEach(d => observer.observe(d));
+    </script>
+</body>
+</html>
