@@ -8,8 +8,14 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=GG+Sans:wght@400;500;600;700;800&display=swap');
     :root{
-      --sidebar:#121f1a;--main:#16251f;--accent:#00ff9d;--text:#b0ffdb;--muted:#6c9f89;
-      --hover:#1a3d32;--input:#1a2f28;--border:rgba(0,0,0,0.3);
+      --sidebar:#121f1a;
+      --main:#16251f;
+      --accent:#00ff9d;
+      --text:#b0ffdb;
+      --muted:#6c9f89;
+      --hover:#1a3d32;
+      --input:#1a2f28;
+      --border:rgba(0,0,0,0.3);
     }
     *{margin:0;padding:0;box-sizing:border-box;font-family:'GG Sans',sans-serif}
     html,body{width:100vw;height:100vh;background:var(--main);color:var(--text);overflow:hidden;display:flex;position:relative}
@@ -23,10 +29,9 @@
     .inp:focus{border:2px solid var(--accent);padding:12px 14px}
     .btn{background:var(--accent);color:#000;padding:14px;border:none;border-radius:8px;width:100%;font-weight:700;font-size:16px;cursor:pointer;margin-top:20px}
     .btn:hover{background:#00cc7a}
-    #avatar-preview{width:128px;height:128px;border-radius:50%;object-fit:cover;margin:20px auto;display:block;border:4px solid var(--accent)}
+    .error{color:#ed4245;font-size:14px;margin-top:10px;display:block}
     .step{display:none}.step.active{display:block}
     .link{color:var(--accent);cursor:pointer;text-decoration:underline}
-    .error{color:#ed4245;font-size:14px;margin-top:10px}
 
     /* TU CHAT EXACTO */
     #layout{display:none;height:100%;width:100%}
@@ -149,7 +154,7 @@
 </div>
 
 <script>
-  const API_URL = "https://zephiryx-backend-production.up.railway.app"; // ← TU BACKEND REAL
+  const API_URL = "https://zephiryxgaming-production.up.railway.app";
 
   // Comprobar sesión
   if (localStorage.getItem("zephiryx_token")) {
@@ -165,7 +170,6 @@
     const data = await res.json();
     if (data.username) {
       document.getElementById("user-name").textContent = data.username;
-      document.getElementById("user-tag").textContent = "#" + data.discriminator;
     }
   }
 
@@ -189,7 +193,7 @@
       localStorage.setItem("zephiryx_token", data.token);
       location.reload();
     } else {
-      document.getElementById("register-error").textContent = data.error || "Error al registrarse";
+      document.getElementById("register-error").textContent = data.error || "Error";
     }
   }
 
