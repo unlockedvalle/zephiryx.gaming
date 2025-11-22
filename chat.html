@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zephiryx Chat</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <!-- FUENTE OSWALD -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=GG+Sans:wght@400;500;600;700;800&display=swap');
@@ -23,8 +22,8 @@
     #auth-card::-webkit-scrollbar{width:8px}
     #auth-card::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
 
-    /* ZEPHIRYX CHAT MÁS PEQUEÑO Y LETRAS JUNTAS */
-    #title{font-family:'Oswald',sans-serif;font-size:60px;font-weight:700;color:var(--accent);text-align:center;letter-spacing:-2px;margin-bottom:16px;text-shadow:0 0 30px rgba(0,255,157,0.6);white-space:nowrap;overflow:hidden;text-overflow:clip}
+    /* ZEPHIRYX CHAT - PEQUEÑO Y LETRAS JUNTAS */
+    #title{font-family:'Oswald',sans-serif;font-size:60px;font-weight:700;color:var(--accent);text-align:center;letter-spacing:-2px;margin-bottom:16px;text-shadow:0 0 30px rgba(0,255,157,0.6);white-space:nowrap;overflow:hidden}
 
     #subtitle{font-size:18px;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:40px}
 
@@ -80,7 +79,7 @@
 </head>
 <body>
 
-<!-- LOGIN ÉPICO -->
+<!-- LOGIN / REGISTER ÉPICO -->
 <div id="auth">
   <div id="auth-card">
     <h1 id="title">ZEPHIRYX CHAT</h1>
@@ -179,6 +178,7 @@
 <script>
   const API_URL = "https://zephiryxgaming-production.up.railway.app";
 
+  // Comprobar sesión
   if (localStorage.getItem("zephiryx_token")) {
     document.getElementById("auth").remove();
     document.getElementById("layout").style.display = "flex";
@@ -186,12 +186,16 @@
   }
 
   async function loadUser() {
-    const res = await fetch(API_URL + "/me", {
-      headers: { "Authorization": localStorage.getItem("zephiryx_token") }
-    });
-    const data = await res.json();
-    if (data.username) {
-      document.getElementById("user-name").textContent = data.username;
+    try {
+      const res = await fetch(API_URL + "/me", {
+        headers: { "Authorization": localStorage.getItem("zephiryx_token") }
+      });
+      const data = await res.json();
+      if (data.username) {
+        document.getElementById("user-name").textContent = data.username;
+      }
+    } catch (e) {
+      console.error("Error loading user:", e);
     }
   }
 
@@ -205,8 +209,14 @@
   }
 
   async function login() {
-    const credential = document.getElementById("login-credential").value;
+    const credential = document.getElementById("login-credential").value.trim();
     const password = document.getElementById("login-pass").value;
+    if (!credential || !password) {
+      document.getElementById("login-error").textContent = "Falta email/username o contraseña";
+      document.getElementById("login-error").style.display = "block";
+      return;
+    }
+
     const res = await fetch(API_URL + "/login", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -217,14 +227,17 @@
       localStorage.setItem("zephiryx_token", data.token);
       location.reload();
     } else {
-      document.getElementById("login-error").textContent = data.error || "Error";
+      document.getElementById("login-error").textContent = data.error || "Credenciales incorrectas";
       document.getElementById("login-error").style.display = "block";
     }
   }
 
   async function register() {
+    const email = document.getElementById("reg-email").value.trim();
+    const username = document.getElementById("reg-user").value.trim();
     const pass = document.getElementById("reg-pass").value;
     const confirm = document.getElementById("reg-pass-confirm").value;
+
     if (pass !== confirm) {
       document.getElementById("register-error").textContent = "Las contraseñas no coinciden";
       document.getElementById("register-error").style.display = "block";
@@ -234,18 +247,14 @@
     const res = await fetch(API_URL + "/register", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        email: document.getElementById("reg-email").value,
-        username: document.getElementById("reg-user").value,
-        password: pass
-      })
+      body: JSON.stringify({ email, username, password: pass })
     });
     const data = await res.json();
     if (data.token) {
       localStorage.setItem("zephiryx_token", data.token);
       location.reload();
     } else {
-      document.getElementById("register-error").textContent = data.error || "Error";
+      document.getElementById("register-error").textContent = data.error || "Error al registrarse";
       document.getElementById("register-error").style.display = "block";
     }
   }
