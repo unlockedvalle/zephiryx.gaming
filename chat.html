@@ -5,35 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zephiryx Chat</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <!-- FUENTE OSWALD -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=GG+Sans:wght@400;500;600;700;800&display=swap');
     :root{
-      --sidebar:#121f1a;
-      --main:#16251f;
-      --accent:#00ff9d;
-      --text:#b0ffdb;
-      --muted:#6c9f89;
-      --hover:#1a3d32;
-      --input:#1a2f28;
-      --border:rgba(0,0,0,0.3);
+      --sidebar:#121f1a;--main:#16251f;--accent:#00ff9d;--text:#b0ffdb;--muted:#6c9f89;
+      --hover:#1a3d32;--input:#1a2f28;--border:rgba(0,0,0,0.3);
     }
     *{margin:0;padding:0;box-sizing:border-box;font-family:'GG Sans',sans-serif}
-    html,body{width:100vw;height:100vh;background:var(--main);color:var(--text);overflow:hidden;display:flex;position:relative}
+    html,body{width:100vw;height:100vh;background:linear-gradient(135deg,#0a1a14,#0e241c);color:var(--text);overflow:hidden;display:flex;position:relative}
 
-    /* LOGIN / REGISTER */
-    #auth{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--main);display:flex;align-items:center;justify-content:center;z-index:9999}
-    .auth-box{background:var(--sidebar);padding:40px 60px;border-radius:12px;width:480px;max-width:90%;box-shadow:0 20px 60px #000;text-align:center;border:1px solid var(--border)}
-    .auth-box h1{font-size:36px;font-weight:800;color:var(--accent);margin-bottom:8px}
-    .auth-box p{font-size:15px;color:var(--muted);margin-bottom:32px}
-    .inp{background:var(--input);border:none;border-radius:8px;padding:14px 16px;margin:10px 0;width:100%;color:white;font-size:16px;outline:none}
-    .inp:focus{border:2px solid var(--accent);padding:12px 14px}
-    .btn{background:var(--accent);color:#000;padding:14px;border:none;border-radius:8px;width:100%;font-weight:700;font-size:16px;cursor:pointer;margin-top:20px}
-    .btn:hover{background:#00cc7a}
-    .error{color:#ed4245;font-size:14px;margin-top:10px;display:block}
-    .step{display:none}.step.active{display:block}
-    .link{color:var(--accent);cursor:pointer;text-decoration:underline}
+    /* LOGIN ÉPICO */
+    #auth{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:9999}
+    #auth::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:url('https://files.catbox.moe/cmbg2y.png') center/35% no-repeat;opacity:0.12;pointer-events:none}
+    #auth-card{background:var(--sidebar);width:500px;padding:60px 60px;border-radius:24px;box-shadow:0 60px 140px rgba(0,0,0,0.9);border:1px solid rgba(0,255,157,0.25);backdrop-filter:blur(16px);max-height:90vh;overflow-y:auto}
+    #auth-card::-webkit-scrollbar{width:8px}
+    #auth-card::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
 
-    /* TU CHAT EXACTO */
+    /* ZEPHIRYX CHAT MÁS PEQUEÑO Y LETRAS JUNTAS */
+    #title{font-family:'Oswald',sans-serif;font-size:60px;font-weight:700;color:var(--accent);text-align:center;letter-spacing:-2px;margin-bottom:16px;text-shadow:0 0 30px rgba(0,255,157,0.6);white-space:nowrap;overflow:hidden;text-overflow:clip}
+
+    #subtitle{font-size:18px;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:40px}
+
+    .inp{background:var(--input);border:2px solid transparent;border-radius:12px;padding:16px 20px;margin:12px 0;width:100%;color:white;font-size:16px;outline:none;transition:all .3s}
+    .inp:focus{border-color:var(--accent);box-shadow:0 0 30px rgba(0,255,157,0.4)}
+    .btn{background:var(--accent);color:#000;padding:18px;border:none;border-radius:12px;width:100%;font-weight:800;font-size:18px;cursor:pointer;margin-top:28px;transition:all .4s;box-shadow:0 12px 40px rgba(0,255,157,0.5)}
+    .btn:hover{background:#00cc7a;transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,255,157,0.6)}
+    .error{color:#ff6b6b;font-size:14px;margin-top:10px;text-align:center}
+    .link{color:var(--accent);cursor:pointer;font-weight:700;text-decoration:underline}
+    .link:hover{text-decoration:none}
+    #register{display:none}
+
+    /* TU CHAT 100% INTACTO */
     #layout{display:none;height:100%;width:100%}
     #servers{width:72px;background:#111418;display:flex;flex-direction:column;align-items:center;padding-top:12px;gap:8px}
     .server{width:48px;height:48px;border-radius:50%;background:var(--accent);color:#000;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.25s}
@@ -76,31 +80,50 @@
 </head>
 <body>
 
-<!-- LOGIN / REGISTER -->
+<!-- LOGIN ÉPICO -->
 <div id="auth">
-  <div class="auth-box">
-    <h1>Zephiryx Chat</h1>
-    <p>El Discord que siempre quisiste, pero verde</p>
+  <div id="auth-card">
+    <h1 id="title">ZEPHIRYX CHAT</h1>
 
-    <div class="step active" id="login">
-      <input type="email" id="login-email" class="inp" placeholder="Correo electrónico">
-      <input type="password" id="login-pass" class="inp" placeholder="Contraseña">
+    <!-- LOGIN -->
+    <div id="login">
+      <div id="subtitle">
+        Welcome back!<br>
+        We're so excited to see you again!<br>
+        <br>
+        The most powerful and beautiful green chat in the world.
+      </div>
+      <input type="text" id="login-credential" class="inp" placeholder="Email or username">
+      <input type="password" id="login-pass" class="inp" placeholder="Password">
       <div id="login-error" class="error"></div>
-      <button class="btn" onclick="login()">Iniciar sesión</button>
-      <p style="margin-top:20px">¿No tienes cuenta? <span class="link" onclick="showRegister()">Regístrate</span></p>
+      <button class="btn" onclick="login()">Log In</button>
+      <p style="margin-top:24px;text-align:center">
+        Need an account? <span class="link" onclick="showRegister()">Register</span>
+      </p>
     </div>
 
-    <div class="step" id="register">
-      <input type="email" id="reg-email" class="inp" placeholder="Correo electrónico">
-      <input type="password" id="reg-pass" class="inp" placeholder="Contraseña">
-      <input type="text" id="reg-user" class="inp" placeholder="Nombre de usuario">
+    <!-- REGISTER -->
+    <div id="register" style="display:none">
+      <div id="subtitle">
+        Create your account<br>
+        Join the green revolution<br>
+        <br>
+        The future of chatting is here.
+      </div>
+      <input type="email" id="reg-email" class="inp" placeholder="Email">
+      <input type="text" id="reg-user" class="inp" placeholder="Username">
+      <input type="password" id="reg-pass" class="inp" placeholder="Password">
+      <input type="password" id="reg-pass-confirm" class="inp" placeholder="Confirm password">
       <div id="register-error" class="error"></div>
-      <button class="btn" onclick="register()">Crear cuenta</button>
+      <button class="btn" onclick="register()">Create account</button>
+      <p style="margin-top:24px;text-align:center">
+        Already have an account? <span class="link" onclick="showLogin()">Log In</span>
+      </p>
     </div>
   </div>
 </div>
 
-<!-- TU CHAT PERFECTO -->
+<!-- TU CHAT 100% INTACTO -->
 <div id="layout">
   <div id="servers">
     <div class="server active"><i class="fab fa-discord" style="font-size:22px"></i></div>
@@ -156,7 +179,6 @@
 <script>
   const API_URL = "https://zephiryxgaming-production.up.railway.app";
 
-  // Comprobar sesión
   if (localStorage.getItem("zephiryx_token")) {
     document.getElementById("auth").remove();
     document.getElementById("layout").style.display = "flex";
@@ -174,18 +196,48 @@
   }
 
   function showRegister() {
-    document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-    document.getElementById("register").classList.add("active");
+    document.getElementById("login").style.display = "none";
+    document.getElementById("register").style.display = "block";
+  }
+  function showLogin() {
+    document.getElementById("register").style.display = "none";
+    document.getElementById("login").style.display = "block";
+  }
+
+  async function login() {
+    const credential = document.getElementById("login-credential").value;
+    const password = document.getElementById("login-pass").value;
+    const res = await fetch(API_URL + "/login", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ credential, password })
+    });
+    const data = await res.json();
+    if (data.token) {
+      localStorage.setItem("zephiryx_token", data.token);
+      location.reload();
+    } else {
+      document.getElementById("login-error").textContent = data.error || "Error";
+      document.getElementById("login-error").style.display = "block";
+    }
   }
 
   async function register() {
+    const pass = document.getElementById("reg-pass").value;
+    const confirm = document.getElementById("reg-pass-confirm").value;
+    if (pass !== confirm) {
+      document.getElementById("register-error").textContent = "Las contraseñas no coinciden";
+      document.getElementById("register-error").style.display = "block";
+      return;
+    }
+
     const res = await fetch(API_URL + "/register", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
         email: document.getElementById("reg-email").value,
-        password: document.getElementById("reg-pass").value,
-        username: document.getElementById("reg-user").value
+        username: document.getElementById("reg-user").value,
+        password: pass
       })
     });
     const data = await res.json();
@@ -194,24 +246,7 @@
       location.reload();
     } else {
       document.getElementById("register-error").textContent = data.error || "Error";
-    }
-  }
-
-  async function login() {
-    const res = await fetch(API_URL + "/login", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        email: document.getElementById("login-email").value,
-        password: document.getElementById("login-pass").value
-      })
-    });
-    const data = await res.json();
-    if (data.token) {
-      localStorage.setItem("zephiryx_token", data.token);
-      location.reload();
-    } else {
-      document.getElementById("login-error").textContent = data.error || "Credenciales incorrectas";
+      document.getElementById("register-error").style.display = "block";
     }
   }
 </script>
