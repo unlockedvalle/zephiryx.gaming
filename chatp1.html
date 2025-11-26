@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zephiryx Chat</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=GG+Sans:wght@400;500;600;700;800&display=swap');
+    :root{
+      --sidebar:#121f1a;--main:#16251f;--accent:#00ff9d;--text:#b0ffdb;--muted:#6c9f89;
+      --hover:#1a3d32;--input:#1a2f28;--border:rgba(0,0,0,0.3);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'GG Sans',sans-serif}
+    html,body{width:100vw;height:100vh;background:var(--main);color:var(--text);overflow:hidden;display:flex;position:relative}
+
+    /* LOGIN ÉPICO */
+    #auth{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0a1a14,#0e241c);display:flex;align-items:center;justify-content:center;z-index:9999}
+    #auth::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:url('https://files.catbox.moe/cmbg2y.png') center/35% no-repeat;opacity:0.12}
+    #auth-card{background:var(--sidebar);width:500px;padding:60px 60px;border-radius:24px;box-shadow:0 60px 140px rgba(0,0,0,0.9);border:1px solid rgba(0,255,157,0.25);backdrop-filter:blur(16px)}
+    #title{font-family:'Oswald',sans-serif;font-size:60px;font-weight:700;color:var(--accent);text-align:center;letter-spacing:-2px;margin-bottom:16px;text-shadow:0 0 30px rgba(0,255,157,0.6);white-space:nowrap;overflow:hidden}
+    #subtitle{font-size:18px;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:40px}
+    .inp{background:var(--input);border:2px solid transparent;border-radius:12px;padding:16px 20px;margin:12px 0;width:100%;color:white;font-size:16px;outline:none;transition:all .3s}
+    .inp:focus{border-color:var(--accent);box-shadow:0 0 30px rgba(0,255,157,0.4)}
+    .btn{background:var(--accent);color:#000;padding:18px;border:none;border-radius:12px;width:100%;font-weight:800;font-size:18px;cursor:pointer;margin-top:28px;transition:all .4s;box-shadow:0 12px 40px rgba(0,255,157,0.5)}
+    .btn:hover{background:#00cc7a;transform:translateY(-4px)}
+    .error{color:#ff6b6b;font-size:14px;margin-top:10px;text-align:center}
+    .link{color:var(--accent);cursor:pointer;font-weight:700;text-decoration:underline}
+    .link:hover{text-decoration:none}
+    #register{display:none}
+
+    /* TU CHAT PERFECTO */
+    #layout{display:none;height:100%;width:100%}
+    #servers{width:72px;background:#111418;display:flex;flex-direction:column;align-items:center;padding-top:12px;gap:8px}
+    .server{width:48px;height:48px;border-radius:50%;background:var(--accent);color:#000;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.25s}
+    .server:hover{border-radius:16px;background:#00cc7a}
+    .server.active{border-radius:16px;box-shadow:0 0 0 2px var(--accent)}
+    #add-server{width:48px;height:48px;border-radius:50%;background:#1a3d32;color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;transition:.25s;position:relative}
+    #add-server:hover{border-radius:16px;background:var(--accent);color:#000}
+    #add-server::before{content:'';position:absolute;width:20px;height:2px;background:var(--accent)}
+    #add-server::after{content:'';position:absolute;width:2px;height:20px;background:var(--accent)}
+    #add-server:hover::before,#add-server:hover::after{background:#000}
+    #dm-container{width:240px;background:var(--sidebar);display:flex;flex-direction:column;position:relative}
+    #dm-header{height:48px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 0 var(--border)}
+    #dm-header span{font-weight:600;font-size:15px;color:white}
+    #dm-search{background:var(--input);border-radius:8px;padding:10px 12px;margin:8px;width:calc(100%-16px);border:none;outline:none;color:white;font-size:14px}
+    #dm-search::placeholder{color:#72767d}
+    #dm-empty{padding:32px 16px;text-align:center;color:var(--muted);font-size:14px}
+    #user-bar{height:53px;background:#0b1411;display:flex;align-items:center;padding:0 10px;gap:10px;cursor:pointer;position:absolute;bottom:0;left:0;right:0}
+    #user-bar:hover{background:#12171b}
+    #user-avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#000;display:flex;align-items:center;justify-content:center;font-weight:800;position:relative}
+    #user-avatar::after{content:'';position:absolute;bottom:-2px;right:-2px;width:14px;height:14px;background:#43b581;border:4px solid #0b1411;border-radius:50%}
+    #user-info{flex:1}
+    #user-name{font-weight:600;color:white;font-size:14px}
+    #user-tag{font-size:12px;color:var(--muted)}
+    #user-actions i{color:#b9bbbe;font-size:20px;cursor:pointer;margin:0 4px}
+    #user-actions i:hover{color:white}
+    #friends-area{flex:1;background:var(--main);display:flex;flex-direction:column;position:relative}
+    #friends-top{height:48px;display:flex;align-items:center;padding:0 24px;border-bottom:1px solid var(--border)}
+    #friends-title{font-weight:700;font-size:16px;display:flex;align-items:center;gap:8px;color:white}
+    #friends-tabs{flex:1;display:flex;align-items:center;height:100%;margin-left:24px}
+    .tab{height:100%;display:flex;align-items:center;justify-content:center;padding:0 12px;font-size:13px;cursor:pointer;transition:.2s;color:#b9bbbe;position:relative}
+    .tab:hover{background:var(--hover)}
+    .tab.active{color:white;font-weight:600}
+    .tab.active::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:var(--accent)}
+    .tab.add{background:var(--accent);color:#000;border-radius:24px;padding:0 16px !important;margin-left:8px;font-weight:700;height:32px;cursor:pointer}
+    #friends-body{flex:1;overflow-y:auto;padding:16px}
+    .friend-item{padding:8px 16px;border-radius:8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.2s;position:relative}
+    .friend-item:hover{background:var(--hover)}
+    .friend-avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#000;display:flex;align-items:center;justify-content:center;font-weight:800}
+    .pending-actions{display:flex;gap:8px;position:absolute;right:16px}
+    .pending-actions button{padding:6px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:12px}
+    .accept{background:#43b581;color:white}
+    .reject{background:#ed4245;color:white}
+    #chat-area{flex:1;display:flex;flex-direction:column;background:var(--main)}
+    #chat-header{height:48px;padding:0 24px;display:flex;align-items:center;border-bottom:1px solid var(--border);font-weight:600;color:white}
+    #messages{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px}
+    .message{display:flex;gap:16px}
+    .msg-avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#000;display:flex;align-items:center;justify-content:center;font-weight:800}
+    #input-area{padding:20px}
+    #input-box{background:var(--input);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border)}
+    #msg-input{flex:1;background:transparent;border:none;outline:none;color:white;font-size:15px}
+  </style>
+</head>
+<body>
+
+<!-- LOGIN / REGISTER -->
+<div id="auth">
+  <div id="auth-card">
+    <h1 id="title">ZEPHIRYX CHAT</h1>
+    <!-- LOGIN -->
+    <div id="login">
+      <div id="subtitle">
+        Welcome back!<br>
+        We're so excited to see you again!<br>
+        <br>
+        The most powerful and beautiful green chat in the world.
+      </div>
+      <input type="text" id="login-credential" class="inp" placeholder="Email or username">
+      <input type="password" id="login-pass" class="inp" placeholder="Password">
+      <div id="login-error" class="error"></div>
+      <button class="btn" onclick="login()">Log In</button>
+      <p style="margin-top:24px;text-align:center">
+        Need an account? <span class="link" onclick="showRegister()">Register</span>
+      </p>
+    </div>
+    <!-- REGISTER -->
+    <div id="register" style="display:none">
+      <div id="subtitle">
+        Create your account<br>
+        Join the green revolution<br>
+        <br>
+        The future of chatting is here.
+      </div>
+      <input type="email" id="reg-email" class="inp" placeholder="Email">
+      <input type="text" id="reg-user" class="inp" placeholder="Username">
+      <input type="password" id="reg-pass" class="inp" placeholder="Password">
+      <input type="password" id="reg-pass-confirm" class="inp" placeholder="Confirm password">
+      <div id="register-error" class="error"></div>
+      <button class="btn" onclick="register()">Create account</button>
+      <p style="margin-top:24px;text-align:center">
+        Already have an account? <span class="link" onclick="showLogin()">Log In</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- TU CHAT COMPLETO -->
+<div id="layout">
+  <div id="servers">
+    <div class="server active"><i class="fab fa-discord" style="font-size:22px"></i></div>
+    <div style="height:2px;background:#333;width:32px;margin:8px 0"></div>
+    <div id="add-server">+</div>
+  </div>
+  <div id="dm-container">
+    <div id="dm-header">
+      <span>Mensajes directos</span>
+      <i class="fas fa-question-circle"></i>
+    </div>
+    <input type="text" id="dm-search" placeholder="Buscar o iniciar una conversación">
+    <div id="dm-list">
+      <div id="dm-empty">
+        No tienes ningún mensaje directo abierto
+      </div>
+    </div>
+    <div id="user-bar">
+      <div id="user-avatar">Y</div>
+      <div id="user-info">
+        <div id="user-name">Cargando...</div>
+        <div id="user-tag">#0000</div>
+      </div>
+      <div id="user-actions">
+        <i class="fas fa-microphone"></i>
+        <i class="fas fa-headphones"></i>
+        <i class="fas fa-cog"></i>
+      </div>
+    </div>
+  </div>
+  <div id="friends-area">
+    <div id="friends-top">
+      <div id="friends-title">
+        <i class="fas fa-user-friends"></i> Friends
+      </div>
+      <div id="friends-tabs">
+        <div class="tab" onclick="showTab('online')">Online</div>
+        <div class="tab active" onclick="showTab('all')">All</div>
+        <div class="tab" onclick="showTab('pending')">Pending</div>
+        <div class="tab" onclick="showTab('blocked')">Blocked</div>
+        <div class="tab add" onclick="openAddFriend()">Add Friend</div>
+      </div>
+    </div>
+    <div id="friends-body">
+      <div id="friends-content">
+        <h2>Firit está esperando amigos</h2>
+        <p>No tienes ningún amigo todavía.<br>Añade a alguien para empezar a chatear.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ADD FRIEND -->
+<div id="modal-overlay" onclick="closeAddFriend()"></div>
+<div id="add-friend-modal">
+  <h2>Add Friend</h2>
+  <p>You can add a friend with their username.</p>
+  <input type="text" id="friend-username" class="inp" placeholder="Enter a Username">
+  <div id="add-friend-error" class="error"></div>
+  <button class="btn" onclick="sendFriendRequest()">Send Friend Request</button>
+</div>
+
+<script>
+  const API_URL = "https://zephiryxgaming-production.up.railway.app";
+  const socket = io(API_URL);
+  let currentTab = "all";
+  let currentDM = null;
+
+  if (localStorage.getItem("zephiryx_token")) {
+    document.getElementById("auth").remove();
+    document.getElementById("layout").style.display = "flex";
+    loadUser();
+    loadFriends();
+  }
+
+  async function loadUser() {
+    const res = await fetch(API_URL + "/me", {
+      headers: { "Authorization": localStorage.getItem("zephiryx_token") }
+    });
+    const data = await res.json();
+    document.getElementById("user-name").textContent = data.username;
+  }
+
+  async function loadFriends() {
+    const res = await fetch(API_URL + "/friends/" + currentTab, {
+      headers: { "Authorization": localStorage.getItem("zephiryx_token") }
+    });
+    const friends = await res.json();
+    const content = document.getElementById("friends-content");
+    content.innerHTML = "";
+    if (friends.length === 0) {
+      content.innerHTML = `<h2>No friends here yet</h2><p>Add some friends to get started!</p>`;
+      return;
+    }
+    friends.forEach(friend => {
+      const div = document.createElement("div");
+      div.className = "friend-item";
+      div.innerHTML = `
+        <div class="friend-avatar">${friend.username[0]}</div>
+        <div style="flex:1">
+          <div style="font-weight:600">${friend.username}</div>
+          <div style="font-size:12px;color:var(--muted)">Online</div>
+        </div>
+      `;
+      if (currentTab === "pending") {
+        div.innerHTML += `
+          <div class="pending-actions">
+            <button class="accept" onclick="acceptFriend(${friend.id})">Accept</button>
+            <button class="reject" onclick="rejectFriend(${friend.id})">Reject</button>
+          </div>
+        `;
+      }
+      div.onclick = () => openDM(friend);
+      content.appendChild(div);
+    });
+  }
+
+  function showTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab")[["online","all","pending","blocked"].indexOf(tab)].classList.add("active");
+    loadFriends();
+  }
+
+  function openAddFriend() {
+    document.getElementById("modal-overlay").style.display = "block";
+    document.getElementById("add-friend-modal").style.display = "block";
+  }
+  function closeAddFriend() {
+    document.getElementById("modal-overlay").style.display = "none";
+    document.getElementById("add-friend-modal").style.display = "none";
+    document.getElementById("friend-username").value = "";
+    document.getElementById("add-friend-error").style.display = "none";
+  }
+
+  async function sendFriendRequest() {
+    const username = document.getElementById("friend-username").value.trim();
+    if (!username) return;
+    const res = await fetch(API_URL + "/add-friend", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("zephiryx_token")
+      },
+      body: JSON.stringify({ username })
+    });
+    const data = await res.json();
+    if (data.success) {
+      closeAddFriend();
+      alert("¡Solicitud enviada a " + username + "!");
+      if (currentTab === "pending") loadFriends();
+    } else {
+      document.getElementById("add-friend-error").textContent = data.error || "Error";
+      document.getElementById("add-friend-error").style.display = "block";
+    }
+  }
+
+  async function acceptFriend(id) {
+    await fetch(API_URL + "/accept-friend", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("zephiryx_token")
+      },
+      body: JSON.stringify({ friendId: id })
+    });
+    loadFriends();
+  }
+
+  async function rejectFriend(id) {
+    await fetch(API_URL + "/reject-friend", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("zephiryx_token")
+      },
+      body: JSON.stringify({ friendId: id })
+    });
+    loadFriends();
+  }
+
+  function openDM(friend) {
+    currentDM = friend;
+    document.getElementById("chat-header").innerHTML = `<i class="fas fa-at"></i> ${friend.username}`;
+    document.getElementById("messages").innerHTML = "";
+    socket.emit("join-dm", friend.id);
+  }
+
+  document.getElementById("msg-input")?.addEventListener("keypress", e => {
+    if (e.key === "Enter" && e.target.value.trim()) {
+      socket.emit("send-message", {
+        to: currentDM.id,
+        text: e.target.value.trim()
+      });
+      e.target.value = "";
+    }
+  });
+
+  socket.on("receive-message", msg => {
+    const div = document.createElement("div");
+    div.className = "message";
+    div.innerHTML = `<div class="msg-avatar">${msg.from[0]}</div><div><div style="font-weight:600;color:var(--accent)">${msg.from}</div><div>${msg.text}</div></div>`;
+    document.getElementById("messages").appendChild(div);
+    document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
+  });
+
+  // LOGIN / REGISTER
+  function showRegister() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("register").style.display = "block";
+  }
+  function showLogin() {
+    document.getElementById("register").style.display = "none";
+    document.getElementById("login").style.display = "block";
+  }
+
+  async function login() {
+    const credential = document.getElementById("login-credential").value.trim();
+    const password = document.getElementById("login-pass").value;
+    const res = await fetch(API_URL + "/login", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ credential, password })
+    });
+    const data = await res.json();
+    if (data.token) {
+      localStorage.setItem("zephiryx_token", data.token);
+      location.reload();
+    } else {
+      document.getElementById("login-error").textContent = data.error || "Error";
+      document.getElementById("login-error").style.display = "block";
+    }
+  }
+
+  async function register() {
+    const pass = document.getElementById("reg-pass").value;
+    const confirm = document.getElementById("reg-pass-confirm").value;
+    if (pass !== confirm) {
+      document.getElementById("register-error").textContent = "Las contraseñas no coinciden";
+      document.getElementById("register-error").style.display = "block";
+      return;
+    }
+
+    const res = await fetch(API_URL + "/register", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        email: document.getElementById("reg-email").value,
+        username: document.getElementById("reg-user").value,
+        password: pass
+      })
+    });
+    const data = await res.json();
+    if (data.token) {
+      localStorage.setItem("zephiryx_token", data.token);
+      location.reload();
+    } else {
+      document.getElementById("register-error").textContent = data.error || "Error";
+      document.getElementById("register-error").style.display = "block";
+    }
+  }
+</script>
+</body>
+</html>
