@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zephiryx Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2e8b57;     /* Verde mar */
+            --secondary: #228b22;   /* Verde bosque */
+            --light: #f0fff0;       /* Verde muy claro */
+            --accent: #32cd32;      /* Verde lima */
+            --dark: #006400;        /* Verde oscuro */
+            --text: #1e3a1e;
+        }
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            color: var(--text);
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+            font-weight: 700;
+        }
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-left: 6px solid var(--accent);
+        }
+        h2 {
+            color: var(--secondary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 10px;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h2 i {
+            color: var(--accent);
+        }
+        ol, ul {
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 12px;
+        }
+        code {
+            background: #e8f5e9;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--dark);
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: var(--primary);
+            color: white;
+            margin-top: 50px;
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2em;
+            }
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-tools"></i> Zephiryx Tools</h1>
+        <p>Guías avanzadas para configuraciones de sistemas operativos y soluciones técnicas</p>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h2><i class="fas fa-duotone fa-hard-drive"></i> Instalación Dual Boot Windows 11 + Abalinux con grub2win</h2>
+            <p>Abalinux (Maqueta Abalar Libre) es una distribución basada en Debian creada por la Xunta de Galicia. Aquí te explicamos cómo instalarla en dual boot con Windows 11 usando <strong>grub2win</strong>, una herramienta que permite gestionar GRUB2 directamente desde Windows.</p>
+            <div class="warning">
+                <strong>Importante:</strong> Haz copias de seguridad antes de particionar el disco. Este proceso puede causar pérdida de datos si no se hace correctamente.
+            </div>
+
+            <ol>
+                <li><strong>Preparación</strong>
+                    <ul>
+                        <li>Descarga la ISO de Windows 11 desde Microsoft.</li>
+                        <li>Descarga Abalinux desde <a href="https://espazoabalar.edu.xunta.gal/es/maqueta-abalar-libre" target="_blank">espazoAbalar</a>.</li>
+                        <li>Crea USB bootables con Rufus.</li>
+                        <li>Descarga <strong>grub2win</strong> desde <a href="https://sourceforge.net/projects/grub2win/" target="_blank">SourceForge</a>.</li>
+                        <li>En BIOS/UEFI: Activa modo UEFI y desactiva Secure Boot temporalmente.</li>
+                    </ul>
+                </li>
+                <li><strong>Instala Windows 11 primero</strong>
+                    <ul>
+                        <li>Bootea desde el USB de Windows.</li>
+                        <li>Crea partición NTFS para Windows y deja espacio libre sin asignar para Abalinux (mínimo 30 GB).</li>
+                        <li>Completa la instalación.</li>
+                    </ul>
+                </li>
+                <li><strong>Instala Abalinux</strong>
+                    <ul>
+                        <li>Bootea desde el USB de Abalinux.</li>
+                        <li>En el particionado, usa el espacio libre para crear particiones ext4 y swap.</li>
+                        <li><strong>Importante:</strong> No instales GRUB en el MBR/EFI principal. Si el instalador pregunta, elige instalar GRUB solo en la partición root de Linux o salta ese paso.</li>
+                        <li>Finaliza la instalación.</li>
+                    </ul>
+                </li>
+                <li><strong>Configura el dual boot con grub2win</strong>
+                    <ul>
+                        <li>Arranca en Windows 11.</li>
+                        <li>Ejecuta grub2win como administrador.</li>
+                        <li>La herramienta detectará automáticamente la instalación de Abalinux.</li>
+                        <li>Configura el menú de arranque y aplica los cambios.</li>
+                        <li>Reinicia: ahora verás el menú de GRUB gestionado por grub2win con opciones para Windows y Abalinux.</li>
+                    </ul>
+                </li>
+                <li><strong>Solución de problemas</strong>
+                    <ul>
+                        <li>Si no detecta Linux, usa la opción manual para agregar la partición.</li>
+                        <li>Asegúrate de que ambas instalaciones sean UEFI.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-shield-alt"></i> Quitar restricciones DNS en ordenadores Abalar (sin permisos administrativos)</h2>
+            <p>Los ordenadores del proyecto Abalar incluyen filtros DNS para bloquear contenidos no adecuados en entornos educativos. Si no tienes contraseña de administrador, puedes usar la consola de GRUB para obtener acceso root temporal antes de que cargue el sistema.</p>
+            <div class="warning">
+                <strong>Advertencia:</strong> Modificar las restricciones puede ir contra las normas del centro educativo. Úsalo bajo tu propia responsabilidad.
+            </div>
+
+            <ol>
+                <li><strong>Accede a la consola de GRUB antes del arranque</strong>
+                    <ul>
+                        <li>Enciende el ordenador.</li>
+                        <li>Si no aparece el menú GRUB, mantén pulsada la tecla <strong>Shift</strong> durante el arranque.</li>
+                        <li>Selecciona la entrada de Abalinux y pulsa <strong>e</strong> para editar.</li>
+                        <li>Busca la línea que empieza por <code>linux</code> y al final añade: <code>init=/bin/sh</code></li>
+                        <li>Pulsa <strong>Ctrl+X</strong> o <strong>F10</strong> para arrancar.</li>
+                        <li>Aparecerás en una consola con permisos root sin necesidad de contraseña.</li>
+                    </ul>
+                </li>
+                <li><strong>Modifica los DNS</strong>
+                    <ul>
+                        <li>Haz el sistema escribible: <code>mount -o remount,rw /</code></li>
+                        <li>Edita el archivo DNS: <code>nano /etc/resolv.conf</code></li>
+                        <li>Borra las líneas existentes y añade:
+                            <pre>
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+# O usa Cloudflare:
+# nameserver 1.1.1.1
+# nameserver 1.0.0.1</pre>
+                        </li>
+                        <li>Guarda (Ctrl+O → Enter → Ctrl+X).</li>
+                        <li>Para que no se revierta fácilmente: <code>chattr +i /etc/resolv.conf</code></li>
+                    </ul>
+                </li>
+                <li><strong>Desactiva servicios de filtrado (opcional)</strong>
+                    <ul>
+                        <li>Busca servicios relacionados con filtro y desactívalos (ejemplo genérico):<br>
+                            <code>systemctl disable --now nombre-del-servicio-filtro</code></li>
+                    </ul>
+                </li>
+                <li><strong>Continúa el arranque</strong>
+                    <ul>
+                        <li>Escribe <code>exec /sbin/init</code> para continuar el inicio normal del sistema.</li>
+                        <li>O reinicia con <code>reboot</code>.</li>
+                    </ul>
+                </li>
+                <li><strong>Alternativas</strong>
+                    <ul>
+                        <li>Bootea desde un USB Live de otra distribución Linux y edita los archivos montando la partición.</li>
+                        <li>Usa una VPN una vez dentro del sistema (si permite instalar software).</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <footer>
+        <p>Zephiryx Tools © 2025 • Guías técnicas no oficiales</p>
+    </footer>
+</body>
+</html>
